@@ -22,11 +22,14 @@ int		main(int ac, char **av)
 {
 	t_env	*wolf;
 
-	(void)av;
 	if (ac != 2)
 		ft_error("Incorrect amount of arguments. Try again.\n");
 	if (!(wolf = init_env()))
 		ft_error("Couldn't init mlx.\n");
+	wolf->player = init_player();
+	open_file(av[1], wolf);
+	texture(wolf);
+	raycasting(wolf);
 	mlx_hook(wolf->win, 2, 5, key_events, wolf);
 	mlx_hook(wolf->win, 17, 1L << 17, f_exit, wolf);
 	mlx_loop(wolf->mlx);

@@ -82,6 +82,7 @@ SRC_FILES =	ft_putchar.c \
 			ft_atol_base.c \
 			ft_count_words.c \
 			ft_strtolower.c \
+			vz_ft_free.c
 
 OBJ = $(SRC_FILES:.c=.o)
 

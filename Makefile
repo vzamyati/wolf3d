@@ -8,7 +8,11 @@ LIB = ./libft/libft.a
 
 SRC_FILES = 	main.c \
 				events.c \
-				env.c
+				init.c \
+				map.c \
+				clean.c \
+				texture.c \
+				raycasting.c 
 
 
 BIN_FILES = $(SRC_FILES:.c=.o)
