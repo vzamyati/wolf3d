@@ -69,18 +69,25 @@ typedef struct 			s_ray
 	int 				map_y;
 	int 				step_x;
 	int 				step_y;
-	float				camera;
-	float				dist;
+	double				camera;
+	double				perpwalldist;
 	int					hit;
 	int					hit_side;
 }						t_ray;
+
+typedef struct 			s_img
+{
+	int 				texture_n;
+	double				wallx;
+	int 				texture_x;
+}						t_img;
 
 typedef struct			s_env
 {
 	void				*mlx;
 	void				*win;
 	void				*img;
-	void				*data;
+	char				*data;
 	int 				bpp;
 	int 				sizeline;
 	int 				endian;
@@ -89,9 +96,14 @@ typedef struct			s_env
 	int 				m_width;
 	int 				ceil;
 	int 				floor;
+	int 				color;
 	t_player			player;
 	t_textur			*texture;
 	t_ray				rayc;
+	int 				line_height;
+	int 				draw_start;
+	int 				draw_end;
+	t_img				image;
 }						t_env;
 
 int			f_exit(t_env *wolf);
@@ -108,5 +120,10 @@ void		texture(t_env *wolf);
 void		raycasting(t_env *wolf);
 void		calculate_ray(t_env *wolf, int x);
 void		step(t_env *wolf);
+void		dda(t_env *wolf);
+void		draw_walls(t_env *wolf, int x);
+void	pick_texture(t_env *wolf);
+void		ceil_color(t_env *wolf);
+
 
 #endif
