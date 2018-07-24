@@ -18,7 +18,7 @@ void		make_map2(char *line, int **map, int i, t_env *wolf)
 	int 	j;
 
 	j = 0;
-	if (!(map[i] = ft_memalloc(sizeof(int) * wolf->m_width)))
+	if (!(map[i] = ft_memalloc(sizeof(int) * wolf->map_width)))
 		ft_error("Couldn't allocate memory.\n");
 	split_line = ft_strsplit(line, ' ');
 	free(line);
@@ -37,7 +37,7 @@ void		make_map(int fd, t_env *wolf)
 	int 	i;
 
 	i = 0;
-	if (!(map = ft_memalloc(sizeof(int *) * wolf->m_height)))
+	if (!(map = ft_memalloc(sizeof(int *) * wolf->map_height)))
 		ft_error("Couldn't allocate memory.\n");
 	while (get_next_line(fd, &line))
 	{
@@ -62,8 +62,8 @@ void	read_map_data(int fd, t_env *wolf)
 		i++;
 	if (i != 4) //parametrs of the map
 		ft_error("Error map.\n");
-	wolf->m_height = ft_atoi(map[0]);
-	wolf->m_width = ft_atoi(map[1]);
+	wolf->map_height = ft_atoi(map[0]);
+	wolf->map_width = ft_atoi(map[1]);
 	wolf->player.position.x = ft_atoi(map[2]) + 0.5;
 	wolf->player.position.y = ft_atoi(map[3]) + 0.5;
 	ft_free(&map);

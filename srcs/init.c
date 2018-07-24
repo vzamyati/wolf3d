@@ -27,8 +27,8 @@ t_env			*init_env(void)
 		delete_env(&wolf);
 	wolf->ceil = 0x000000;
 	wolf->floor = 0x646464;
-	wolf->m_height = 0;
-	wolf->m_width = 0;
+	wolf->map_height = 0;
+	wolf->map_width = 0;
 	return (wolf);
 }
 

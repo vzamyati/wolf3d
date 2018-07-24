@@ -10,9 +10,10 @@
 #                                                                              #
 # **************************************************************************** #
 
-FLAGS = -Wall -Werror -Wextra
 NAME = libft.a
-
+CC = gcc
+WWW = -Wall -Werror -Wextra
+HEADER = include
 SRC_FILES =	ft_putchar.c \
 			ft_putendl.c \
 			ft_putnbr.c \
@@ -84,21 +85,35 @@ SRC_FILES =	ft_putchar.c \
 			ft_strtolower.c \
 			vz_ft_free.c
 
-OBJ = $(SRC_FILES:.c=.o)
+OBJ_NAME = $(SRC_FILES:%.c=%.o)
+
+OBJ = $(addprefix $(OBJ_DIR), $(OBJ_NAME))
+INC = -I$(INC_DIR)
+INC_DIR = include/
+LIB_DIR = libft/
+SRC_DIR = srcs/
+OBJ_DIR = obj/
 
 all: $(NAME)
 
-.c.o: $(SRC_FILES)
-	@gcc $(FLAGS) -c $< -o $@
-
 $(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
+	@ echo "\033[32;1mMAKELIB: DONE\033[0m"
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(OBJ_DIR)
+	@ echo "\033[31;1mMAKELIB LINKING [$@]\033[0m"
+	@$(CC) $(WWW) -I./$(HEADER) -o $@ -c $<
 
 clean:
-	/bin/rm -f $(OBJ)
+	@rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
+	@ echo "\033[31;mMAKELIB:REMOVE OBJECT FILES\033[0m"
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@rm -f $(NAME)
+	@ echo "\033[36;1mMAKELIB:REMOVE BINARY FILES\033[0m"
+
 
 re: fclean all

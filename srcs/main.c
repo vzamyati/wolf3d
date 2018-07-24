@@ -30,6 +30,7 @@ int		main(int ac, char **av)
 	open_file(av[1], wolf);
 	texture(wolf);
 	raycasting(wolf);
+	mlx_put_image_to_window(wolf->mlx, wolf->win, wolf->img, 0, 0);
 	mlx_hook(wolf->win, 2, 5, key_events, wolf);
 	mlx_hook(wolf->win, 17, 1L << 17, f_exit, wolf);
 	mlx_loop(wolf->mlx);

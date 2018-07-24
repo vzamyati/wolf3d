@@ -1,10 +1,19 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vzamyati <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/07/24 12:32:09 by vzamyati          #+#    #+#              #
+#    Updated: 2018/07/24 12:32:11 by vzamyati         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = wolf3d
-
-FLAGS = -Wall -Wextra -Werror -I wolf3d.h
-
+CC = gcc
+WWW = -Wall -Wextra -Werror
 MLX = -lmlx -framework AppKit -framework OpenGl -O3
-
-LIB = ./libft/libft.a
 
 SRC_FILES = 	main.c \
 				events.c \
@@ -15,29 +24,44 @@ SRC_FILES = 	main.c \
 				raycasting.c 
 
 
-BIN_FILES = $(SRC_FILES:.c=.o)
+OBJ_NAME = $(SRC_FILES:%.c=%.o)
 
-all: makelib $(NAME)
+OBJ = $(addprefix $(OBJ_DIR), $(OBJ_NAME))
+INC = -I$(INC_DIR)
+INC_DIR = include/
+LIB_DIR = libft/
+SRC_DIR = srcs/
+OBJ_DIR = obj/
 
-makelib:
-	make -C ./libft/
+all: $(NAME)
 
-libclean:
-	make -C ./libft/ clean
+$(NAME): $(OBJ)
+	# @make -C $(LIB_DIR) --silent
+	@ echo "\033[32;1mLIB CREATED\033[0m"
+	$(CC) -o $(NAME) $(OBJ) -L $(LIB_DIR) -lft $(FLAGS) $(MLX)
+	@ echo "\033[32;1mCOMPILING FINISHED\033[0m"
 
-libfclean:
-	make -C ./libft/ fclean
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(OBJ_DIR)
+	@ echo "\033[33;1mLINKING [$@]\033[0m"
+	$(CC) $(WWW) -o $@ -c $< $(INC)
 
-$(NAME): $(BIN_FILES)
-	gcc -o $(NAME) $(BIN_FILES) $(FLAGS) $(MLX) $(LIB)
+norm:
+	@ echo "\033[35;1mwait for norminette\033[0m"
+	@norminette ./libft/
+	@norminette ./include
+	@norminette ./srcs
 
-%.o: %.c
-	gcc $(FLAGS) -c -o $@ $<
+clean:
+	@make -C $(LIB_DIR) clean --silent
+	@rm -rf $(OBJ_DIR)
+	@ echo "\033[31;mREMOVE OBJECT FILES\033[0m"
 
-clean: libclean
-	/bin/rm -f $(BIN_FILES)
-
-fclean: libfclean clean
-	/bin/rm -f $(NAME)
+fclean: clean
+	@make -C $(LIB_DIR) fclean --silent
+	@rm -f $(NAME)
+	@ echo "\033[36;1mREMOVE BINARY FILES\033[0m"
 
 re: fclean all
+
+.PHONY: clean fcelan all re

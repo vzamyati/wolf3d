@@ -20,3 +20,9 @@ void	texture(t_env *wolf)
 	wolf->texture[0].data = mlx_get_data_addr(wolf->texture[0].ptr,
 	&wolf->texture[0].bpp, &wolf->texture[0].sizeline, &wolf->texture[0].endian);
 }
+
+void	texture_n(t_env *wolf)
+{
+	if (wolf->map[wolf->ray.map_x][wolf->ray.map_y] == 1)
+		wolf->scene.t_n = 0;
+}

@@ -13,8 +13,8 @@
 #ifndef 	WOLF3D_H
 # define	WOLF3D_H
 
-# include "./libft/libft.h"
-# include "../minilibx_macos/mlx.h"
+# include "../libft/include/libft.h"
+# include "../../minilibx_macos/mlx.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -23,6 +23,7 @@
 
 # define W_HEIGHT		800
 # define W_WIDTH 		800
+# define TEXT_W			64
 
 # define ESC			53
 # define Q				12
@@ -33,10 +34,26 @@ typedef struct 			s_var
 	double				y;
 }						t_var;
 
+typedef struct	s_test
+{
+	int			t_num; // textures number
+	float		wallx;
+	int			t_x; 
+	int			t_y;
+}				t_test;
+
+typedef struct	s_scene
+{
+	int			height;
+	int			start;
+	int			end;
+	int			t_n;
+}				t_scene;
+
 typedef struct 			s_textur
 {
 	void				*ptr;
-	void				*data;
+	char				*data;
 	int 				bpp;
 	int 				sizeline;
 	int 				endian;
@@ -65,6 +82,7 @@ typedef struct 			s_ray
 	t_var				direct;
 	t_var				delta;
 	t_var				side;
+	t_var				map;
 	int 				map_x;
 	int 				map_y;
 	int 				step_x;
@@ -75,12 +93,6 @@ typedef struct 			s_ray
 	int					hit_side;
 }						t_ray;
 
-typedef struct 			s_img
-{
-	int 				texture_n;
-	double				wallx;
-	int 				texture_x;
-}						t_img;
 
 typedef struct			s_env
 {
@@ -92,18 +104,19 @@ typedef struct			s_env
 	int 				sizeline;
 	int 				endian;
 	int 				**map;
-	int 				m_height;
-	int 				m_width;
+	int 				map_height;
+	int 				map_width;
 	int 				ceil;
 	int 				floor;
 	int 				color;
 	t_player			player;
 	t_textur			*texture;
-	t_ray				rayc;
+	t_ray				ray;
+	t_scene				scene;
+	t_test				test;
 	int 				line_height;
 	int 				draw_start;
 	int 				draw_end;
-	t_img				image;
 }						t_env;
 
 int			f_exit(t_env *wolf);
@@ -118,12 +131,6 @@ void 		open_file(char *line, t_env *wolf);
 t_player	init_player(void);
 void		texture(t_env *wolf);
 void		raycasting(t_env *wolf);
-void		calculate_ray(t_env *wolf, int x);
-void		step(t_env *wolf);
-void		dda(t_env *wolf);
-void		draw_walls(t_env *wolf, int x);
-void	pick_texture(t_env *wolf);
-void		ceil_color(t_env *wolf);
-
+void	texture_n(t_env *wolf);
 
 #endif
