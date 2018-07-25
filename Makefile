@@ -21,7 +21,8 @@ SRC_FILES = 	main.c \
 				map.c \
 				clean.c \
 				texture.c \
-				raycasting.c 
+				raycasting.c \
+				draw.c 
 
 
 OBJ_NAME = $(SRC_FILES:%.c=%.o)
@@ -36,7 +37,7 @@ OBJ_DIR = obj/
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	# @make -C $(LIB_DIR) --silent
+	@make -C $(LIB_DIR) --silent
 	@ echo "\033[32;1mLIB CREATED\033[0m"
 	$(CC) -o $(NAME) $(OBJ) -L $(LIB_DIR) -lft $(FLAGS) $(MLX)
 	@ echo "\033[32;1mCOMPILING FINISHED\033[0m"

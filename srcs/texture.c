@@ -12,7 +12,7 @@
 
 #include "wolf3d.h"
 
-void	texture(t_env *wolf)
+void	textures(t_env *wolf)
 {
 	wolf->texture = (t_textur*)ft_memalloc(sizeof(t_textur) * 2);
 	wolf->texture[0].ptr = mlx_xpm_file_to_image(wolf->mlx,
@@ -21,8 +21,8 @@ void	texture(t_env *wolf)
 	&wolf->texture[0].bpp, &wolf->texture[0].sizeline, &wolf->texture[0].endian);
 }
 
-void	texture_n(t_env *wolf)
+void	get_texture(t_env *wolf)
 {
-	if (wolf->map[wolf->ray.map_x][wolf->ray.map_y] == 1)
-		wolf->scene.t_n = 0;
+	if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 1)
+		wolf->rayc.texture_nb = 0;
 }

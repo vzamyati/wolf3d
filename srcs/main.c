@@ -28,7 +28,7 @@ int		main(int ac, char **av)
 		ft_error("Couldn't init mlx.\n");
 	wolf->player = init_player();
 	open_file(av[1], wolf);
-	texture(wolf);
+	textures(wolf);
 	raycasting(wolf);
 	mlx_put_image_to_window(wolf->mlx, wolf->win, wolf->img, 0, 0);
 	mlx_hook(wolf->win, 2, 5, key_events, wolf);

@@ -44,10 +44,10 @@ t_player		init_player(void)
 	player.left = 0;
 	player.right = 0;
 	player.shift = 0;
-	player.position.x = 0;
-	player.position.y = 0;
-	player.direct.x = -1;
-	player.direct.y = 0;
+	player.pos.x = 0;
+	player.pos.y = 0;
+	player.dirt.x = -1;
+	player.dirt.y = 0;
 	player.plane.x = 0;
 	player.plane.y = 0.66;
 	return (player);
