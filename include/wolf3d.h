@@ -24,14 +24,20 @@
 # define W_HEIGHT		800
 # define W_WIDTH 		800
 # define TEXTURE_WIDTH	64
+# define TEXTURE_HEIGHT	64
 
 # define ESC			53
 # define Q				12
+# define W				13
+# define S				1
+# define A				0
+# define D				2
+# define SHIFT			257
 
 typedef struct 			s_var
 {
-	double				x;
-	double				y;
+	float				x;
+	float				y;
 }						t_var;
 
 typedef struct 			s_textur
@@ -50,9 +56,8 @@ typedef struct 			s_player
 	t_var 				pos;
 	t_var				dirt;
 	t_var				plane;
-	double				s_move;
-	double				s_turn;
-	double				s_shift;
+	float				s_move;
+	float				s_turn;
 	int 				up;
 	int 				down;
 	int 				left;
@@ -71,8 +76,8 @@ typedef struct 			s_ray
 	int 				map_y;
 	int 				step_x;
 	int 				step_y;
-	double				camera;
-	double				pwd;
+	float				camera;
+	float				pwd;
 	int					hit;
 	int					hit_side;
 	int					height;
@@ -108,15 +113,19 @@ typedef struct			s_env
 int			f_exit(t_env *wolf);
 int			key_events(int key, t_env *wolf);
 void		delete_env(t_env **wolf);
-t_env		*init_env(void);
+void		init_env(t_env *wolf);
+void		init_img(t_env *wolf);
 void		ft_error(char *reason);
-void		make_map(int fd, t_env *wolf);
+void		make_map(char *line, int **map, int i, t_env *wolf);
 void		read_map_data(int fd, t_env *wolf);
 void 		open_file(char *line, t_env *wolf);
-t_player	init_player(void);
+void		init_player(t_env *wolf);
 void		textures(t_env *wolf);
 void		raycasting(t_env *wolf);
 void		get_texture(t_env *wolf);
 void		lets_draw(t_env *wolf, int x, int start, int end);
-
+void		draw(t_env *wolf);
+int 		expose(t_env *wolf);
+int		game_loop(t_env *wolf);
+int			stop_keys(int key, t_env *wolf);
 #endif

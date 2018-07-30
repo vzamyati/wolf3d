@@ -12,43 +12,45 @@
 
 #include "wolf3d.h"
 
-t_env			*init_env(void)
+void			init_img(t_env *wolf)
 {
-	t_env *wolf;
+	if (wolf->img != NULL)
+	{
+		mlx_destroy_image(wolf->mlx, wolf->img);
+		wolf->img = NULL;
+	}
+	else
+	{
+		wolf->img = mlx_new_image(wolf->mlx, W_WIDTH, W_HEIGHT);
+		wolf->data = mlx_get_data_addr(wolf->img, &wolf->bpp,
+			&wolf->sizeline, &wolf->endian);
+	}
+}
 
-	if (!(wolf = ft_memalloc(sizeof(t_env))))
-		return (NULL);
-	if (!((wolf->mlx = mlx_init())
-		&& (wolf->win = mlx_new_window(wolf->mlx, W_WIDTH,
-			W_HEIGHT, "wolf3d by vz"))
-		&&  (wolf->img = mlx_new_image(wolf->mlx, W_WIDTH, W_HEIGHT))
-		&& (wolf->data = mlx_get_data_addr(wolf->img, &wolf->bpp, 
-			&wolf->sizeline, &wolf->endian))))
-		delete_env(&wolf);
+void			init_env(t_env *wolf)
+{
+	wolf->mlx = mlx_init();
+	wolf->win = mlx_new_window(wolf->mlx, W_WIDTH, W_HEIGHT, "wolf3d by vz");
 	wolf->ceil = 0x000000;
 	wolf->floor = 0x646464;
 	wolf->map_height = 0;
 	wolf->map_width = 0;
-	return (wolf);
+	wolf->img = NULL;
 }
 
-t_player		init_player(void)
+void		init_player(t_env *wolf)
 {
-	t_player player;
-
-	player.s_move = 0.08;
-	player.s_turn = 0.045;
-	player.s_shift = 0.13;
-	player.up = 0;
-	player.down = 0;
-	player.left = 0;
-	player.right = 0;
-	player.shift = 0;
-	player.pos.x = 0;
-	player.pos.y = 0;
-	player.dirt.x = -1;
-	player.dirt.y = 0;
-	player.plane.x = 0;
-	player.plane.y = 0.66;
-	return (player);
+	wolf->player.s_move = 0.08;
+	wolf->player.s_turn = 0.045;
+	wolf->player.pos.x = 0;
+	wolf->player.pos.y = 0;
+	wolf->player.dirt.x = -1;
+	wolf->player.dirt.y = 0;
+	wolf->player.plane.x = 0;
+	wolf->player.plane.y = 0.66;
+	wolf->player.up = 0;
+	wolf->player.down = 0;
+	wolf->player.left = 0;
+	wolf->player.right = 0;
+	wolf->player.shift = 0;
 }

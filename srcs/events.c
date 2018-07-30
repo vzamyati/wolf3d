@@ -16,6 +16,7 @@ int			f_exit(t_env *wolf)
 {
 	if (wolf != NULL)
 	{
+
 		mlx_destroy_window(wolf->mlx, wolf->win);
 		free(wolf);
 	}
@@ -23,9 +24,101 @@ int			f_exit(t_env *wolf)
 	return (0);
 }
 
+void		key_left(t_env *wolf)
+{
+	t_var	tmp;
+
+	tmp.x = wolf->player.dirt.x;
+	wolf->player.dirt.x = wolf->player.dirt.x * cos(wolf->player.s_turn) -
+	wolf->player.dirt.y * sin(wolf->player.s_turn);
+	wolf->player.dirt.y = tmp.x * sin(wolf->player.s_turn) +
+	wolf->player.dirt.y * cos(wolf->player.s_turn);
+	tmp.x = wolf->player.plane.x;
+	wolf->player.plane.x = wolf->player.plane.x * cos(wolf->player.s_turn) -
+	wolf->player.plane.y * sin(wolf->player.s_turn);
+	wolf->player.plane.y = tmp.x * sin(wolf->player.s_turn) +
+	wolf->player.plane.y * cos(wolf->player.s_turn);
+}
+
+void		key_right(t_env *wolf)
+{
+	t_var	tmp;
+
+	tmp.x = wolf->player.dirt.x;
+	wolf->player.dirt.x = wolf->player.dirt.x * cos(-wolf->player.s_turn) -
+	wolf->player.dirt.y * sin(-wolf->player.s_turn);
+	wolf->player.dirt.y = tmp.x * sin(-wolf->player.s_turn) +
+	wolf->player.dirt.y * cos(-wolf->player.s_turn);
+	tmp.x = wolf->player.plane.x;
+	wolf->player.plane.x = wolf->player.plane.x * cos(-wolf->player.s_turn) -
+	wolf->player.plane.y * sin(-wolf->player.s_turn);
+	wolf->player.plane.y = tmp.x * sin(-wolf->player.s_turn) +
+	wolf->player.plane.y * cos(-wolf->player.s_turn);
+}
+
+void		keys_up(t_env *wolf)
+{
+	if (wolf->map[(int)(wolf->player.pos.x + wolf->player.dirt.x *
+	wolf->player.s_move)][(int)wolf->player.pos.y] == 0)
+		wolf->player.pos.x += wolf->player.dirt.x * wolf->player.s_move;
+	if (wolf->map[(int)wolf->player.pos.x][(int)(wolf->player.pos.y +
+	wolf->player.dirt.y * wolf->player.s_move)] == 0)
+		wolf->player.pos.y += wolf->player.dirt.y * wolf->player.s_move;
+}
+
+void		keys_down(t_env *wolf)
+{
+	if (wolf->map[(int)(wolf->player.pos.x - wolf->player.dirt.x *
+	wolf->player.s_move)][(int)wolf->player.pos.y] == 0)
+		wolf->player.pos.x -= wolf->player.dirt.x * wolf->player.s_move;
+	if (wolf->map[(int)wolf->player.pos.x][(int)(wolf->player.pos.y -
+	wolf->player.dirt.y * wolf->player.s_move)] == 0)
+		wolf->player.pos.y -= wolf->player.dirt.y * wolf->player.s_move;
+}
+
 int			key_events(int key, t_env *wolf)
 {
+	if (key == W)
+		wolf->player.up = 1;
+	if (key == S)
+		wolf->player.down = 1;
+	if (key == A)
+		wolf->player.left = 1;
+	if (key == D)
+		wolf->player.right = 1;
+	if (key == SHIFT)
+		wolf->player.up = 1;
 	if (key == ESC || key == Q)
 		f_exit(wolf);
+	return (0);
+}
+
+int			stop_keys(int key, t_env *wolf)
+{
+	if (key == W)
+		wolf->player.up = 0;
+	if (key == S)
+		wolf->player.down = 0;
+	if (key == A)
+		wolf->player.left = 0;
+	if (key == D)
+		wolf->player.right = 0;
+	if (key == SHIFT)
+		wolf->player.up = 0;
+	return (0);
+}
+
+int		game_loop(t_env *wolf)
+{
+	if (wolf->player.up)
+		keys_up(wolf);
+	if (wolf->player.down)
+		keys_down(wolf);
+	if (wolf->player.left)
+		key_left(wolf);
+	if (wolf->player.right)
+		key_right(wolf);
+	raycasting(wolf);
+	draw(wolf);
 	return (0);
 }

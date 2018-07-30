@@ -20,8 +20,8 @@ void				ray_draw(t_env *wolf, int x)
 	if (wolf->rayc.start < 0)
 		wolf->rayc.start = 0;
 	wolf->rayc.end = wolf->rayc.height / 2 + W_HEIGHT / 2;
-	if (wolf->rayc.end < 0)
-		wolf->rayc.end = 0;
+	if (wolf->rayc.end >= W_HEIGHT)
+		wolf->rayc.end = W_HEIGHT - 1;
 	wolf->rayc.texture_nb = wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] - 1;
 	if (wolf->rayc.hit_side == 0)
 		wolf->rayc.wall_x = wolf->rayc.pos.y + wolf->rayc.pwd * wolf->rayc.dirt.y;
@@ -30,7 +30,7 @@ void				ray_draw(t_env *wolf, int x)
 	wolf->rayc.wall_x -= floor((wolf->rayc.wall_x));
 	wolf->rayc.texture_x = (int)(wolf->rayc.wall_x * (float)TEXTURE_WIDTH);
 	if (wolf->rayc.hit_side == 0 && wolf->rayc.dirt.x > 0)
-		wolf->rayc.texture_x = TEXTURE_WIDTH - wolf->rayc.texture_x - 1;
+		wolf->rayc.texture_x = (float)TEXTURE_WIDTH - wolf->rayc.texture_x - 1;
 	if (wolf->rayc.hit_side == 1 && wolf->rayc.dirt.y < 0)
 		wolf->rayc.texture_x = TEXTURE_WIDTH - wolf->rayc.texture_x - 1;
 	lets_draw(wolf, x, wolf->rayc.start, wolf->rayc.end);
@@ -71,24 +71,24 @@ void	ray_step(t_env *wolf)
 	{
 		wolf->rayc.step_x = -1;
 		wolf->rayc.side.x = (wolf->rayc.pos.x -
-			(int)wolf->rayc.pos.x) * wolf->rayc.delta.x;
+			wolf->rayc.map_x) * wolf->rayc.delta.x;
 	}
 	else
 	{
 		wolf->rayc.step_x = 1;
-		wolf->rayc.side.x = ((int)wolf->rayc.pos.x + 1 -
+		wolf->rayc.side.x = (wolf->rayc.map_x + 1.0 -
 			wolf->rayc.pos.x) * wolf->rayc.delta.x;
 	}
 	if (wolf->rayc.dirt.y < 0)
 	{
 		wolf->rayc.step_y = -1;
 		wolf->rayc.side.y = (wolf->rayc.pos.y -
-			(int)wolf->rayc.pos.y) * wolf->rayc.delta.y;
+			wolf->rayc.map_y) * wolf->rayc.delta.y;
 	}
 	else
 	{
 		wolf->rayc.step_y = 1;
-		wolf->rayc.side.y = ((int)wolf->rayc.pos.y + 1 -
+		wolf->rayc.side.y = (wolf->rayc.map_y + 1.0 -
 			wolf->rayc.pos.y) * wolf->rayc.delta.y;
 	}
 }
@@ -109,9 +109,9 @@ void	raycasting(t_env *wolf)
 		wolf->player.plane.y * wolf->rayc.camera;
 		wolf->rayc.map_x = (int)wolf->rayc.pos.x;
 		wolf->rayc.map_y = (int)wolf->rayc.pos.y;
-		wolf->rayc.delta.x = sqrt(1 + (wolf->rayc.dirt.y * wolf->rayc.dirt.y) /
+		wolf->rayc.delta.x = sqrt(1 + (wolf->rayc.dirt.y * wolf->rayc.dirt.y) / 
 			(wolf->rayc.dirt.x * wolf->rayc.dirt.x));
-		wolf->rayc.delta.y = sqrt(1 + (wolf->rayc.dirt.x * wolf->rayc.dirt.x) /
+		wolf->rayc.delta.y = sqrt(1 + (wolf->rayc.dirt.x * wolf->rayc.dirt.x) / 
 			(wolf->rayc.dirt.y * wolf->rayc.dirt.y));
 		wolf->rayc.hit = 0;
 		wolf->rayc.hit_side = 0;

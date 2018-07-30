@@ -12,37 +12,12 @@
 
 #include "wolf3d.h"
 
-void				get_text(t_env *wolf)
-{
-	if (wolf->rayc.hit_side == 1)
-	{
-		if ((wolf->rayc.step_x == -1 && wolf->rayc.step_y == -1) ||
-			(wolf->rayc.step_x == 1 && wolf->rayc.step_y == -1))
-		{
-			if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 6)
-				wolf->rayc.texture_nb = 0;
-		}
-		if ((wolf->rayc.step_x == -1 && wolf->rayc.step_y == 1) ||
-			(wolf->rayc.step_x == 1 && wolf->rayc.step_y == 1))
-		{
-			if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 6)
-				wolf->rayc.texture_nb = 0;
-		}
-		else
-		{
-			if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 6)
-				wolf->rayc.texture_nb = 9;
-		}
-	}
-}
-
 void				draw_texture(t_env *wolf, int y, int x)
 {
 	int				i;
 
-	get_text(wolf);
 	i = y * 256 - W_HEIGHT * 128 + wolf->rayc.height * 128;
-	wolf->rayc.texture_y = ((i * TEXTURE_WIDTH / wolf->rayc.height) / 256);
+	wolf->rayc.texture_y = ((i * TEXTURE_HEIGHT / wolf->rayc.height) / 256);
 	wolf->data[4 * (W_WIDTH * y + x)] = wolf->texture
 	[wolf->rayc.texture_nb].data[(4 * (TEXTURE_WIDTH * 
 		wolf->rayc.texture_y + wolf->rayc.texture_x))];
@@ -77,4 +52,15 @@ void				lets_draw(t_env *wolf, int x, int start, int end)
 	i--;
 	while (++i < W_HEIGHT)
 		draw_pixel(wolf, x, i, wolf->floor);
+}
+
+void		draw(t_env *wolf)
+{
+	wolf->img = mlx_new_image(wolf->mlx, W_WIDTH, W_HEIGHT);
+	wolf->data = mlx_get_data_addr(wolf->img, &wolf->bpp,
+		&wolf->sizeline, &wolf->endian);
+	raycasting(wolf);
+	mlx_clear_window(wolf->mlx, wolf->win);
+	mlx_put_image_to_window(wolf->mlx, wolf->win, wolf->img, 0, 0);
+	mlx_destroy_image(wolf->mlx, wolf->img);
 }

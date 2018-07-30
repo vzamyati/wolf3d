@@ -12,39 +12,30 @@
 
 #include "wolf3d.h"
 
-void		make_map(int fd, t_env *wolf)
+void		make_map(char *line, int **map, int i, t_env *wolf)
 {
-	char	*line;
 	char 	**split_line;
-	int 	**map;
-	int 	i;
 	int 	j;
 
-	i = -1;
 	j = 0;
-	if (!(map = ft_memalloc(sizeof(int *) * wolf->map_height)))
+	if (!(map[i] = ft_memalloc(sizeof(int) * wolf->map_width)))
 		ft_error("Couldn't allocate memory.\n");
-	while (get_next_line(fd, &line))
+	split_line = ft_strsplit(line, ' ');
+	free(line);
+	while (split_line[j] != '\0')
 	{
-		if (!(map[++i] = ft_memalloc(sizeof(int) * wolf->map_width)))
-			ft_error("Couldn't allocate memory.\n");
-		split_line = ft_strsplit(line, ' ');
-		free(line);
-		while (split_line[j] != '\0')
-		{
-			map[i][j] = ft_atoi(split_line[j]);
-			j++;
-		}
-		ft_free(&split_line);
+		map[i][j] = ft_atoi(split_line[j]);
+		printf("map[%d][%d] - %d\n", i, j, map[i][j]);
+		j++;
 	}
-	wolf->map = map;
+	ft_free(&split_line);
 }
 
-void	read_map_data(int fd, t_env *wolf)
+void	read_data(int fd, t_env *wolf)
 {
 	char 	*line;
 	char	**map;
-	size_t	i;
+	int		i;
 
 	i = 0;
 	if (get_next_line(fd, &line) <= 0)
@@ -62,6 +53,24 @@ void	read_map_data(int fd, t_env *wolf)
 	ft_free(&map);
 }
 
+void	read_map_data(int fd, t_env *wolf)
+{
+	char 	*line;
+	int		**map;
+	size_t	i;
+
+	i = 0;
+	read_data(fd, wolf);
+	if (!(map = (int **)ft_memalloc(sizeof(int *) * wolf->map_height)))
+		ft_error("Couldn't allocate memory.\n");
+	while (get_next_line(fd, &line))
+	{
+		make_map(line, map, i, wolf);
+		i++;
+	}
+	wolf->map = map;
+}
+
 void 	open_file(char *av, t_env *wolf)
 {
 	int fd;
@@ -69,6 +78,5 @@ void 	open_file(char *av, t_env *wolf)
 	if ((fd = open(av, O_RDONLY)) < 0)
 		ft_error("Couldn't open the file.\n");
 	read_map_data(fd, wolf);
-	make_map(fd, wolf);
 	close(fd);
 }
