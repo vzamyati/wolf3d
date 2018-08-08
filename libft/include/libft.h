@@ -106,5 +106,7 @@ void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 size_t				ft_lstlen(t_list *lst);
 size_t				ft_count_words(char const *str, char c);
+size_t				ft_linelen(const char *str);
+int					ft_countlines(char *str);
 
 #endif

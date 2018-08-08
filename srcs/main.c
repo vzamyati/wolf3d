@@ -18,23 +18,21 @@ void		ft_error(char *reason)
 	exit (1);
 }
 
-
 int		main(int ac, char **av)
 {
-	t_env	wolf;
+	t_env	*wolf;
 
 	if (ac != 2)
 		ft_error("Incorrect amount of arguments. Try again.\n");
-	init_player(&wolf);
-	open_file(av[1], &wolf);
-	init_env(&wolf);
-	textures(&wolf);
-	init_img(&wolf);
-	mlx_hook(wolf.win, 2, 0, key_events, &wolf);
-	mlx_hook(wolf.win, 3, 0, stop_keys, &wolf);
-	mlx_hook(wolf.win, 17, 1L << 17, f_exit, &wolf);
-	mlx_loop_hook(wolf.mlx, game_loop, &wolf);
+	if (!(wolf = init_env()))
+		ft_error("Couldn't init mlx.\n");
+	open_file(av[1], wolf);
+	init_player(wolf);
+	mlx_hook(wolf->win, 2, 0, key_press, wolf);
+	mlx_hook(wolf->win, 3, 0, key_release, wolf);
+	mlx_hook(wolf->win, 17, 1L << 17, f_exit, wolf);
+	mlx_loop_hook(wolf->mlx, game_loop, wolf);
 	system("leaks wolf");
-	mlx_loop(wolf.mlx);
+	mlx_loop(wolf->mlx);
 	return (0);
 }

@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vz_ft_free.c                                       :+:      :+:    :+:   */
+/*   ft_linelen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vzamyati <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 16:10:34 by vzamyati          #+#    #+#             */
-/*   Updated: 2018/08/08 15:10:34 by vzamyati         ###   ########.fr       */
+/*   Created: 2018/08/08 15:09:25 by vzamyati          #+#    #+#             */
+/*   Updated: 2018/08/08 15:09:27 by vzamyati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free(char ***str)
+size_t	ft_linelen(const char *str)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-	if (str != NULL)
-	{
-		while (*(*str + i) != 0)
-		{
-			free(*(*str + i));
-			i++;
-		}
-		free(*str);
-		*str = NULL;
-	}
+	while (str[i] && str[i] != '\n')
+		i++;
+	return (i);
 }

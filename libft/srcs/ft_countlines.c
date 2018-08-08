@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vz_ft_free.c                                       :+:      :+:    :+:   */
+/*   ft_countlines.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vzamyati <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 16:10:34 by vzamyati          #+#    #+#             */
-/*   Updated: 2018/08/08 15:10:34 by vzamyati         ###   ########.fr       */
+/*   Created: 2018/08/08 15:09:35 by vzamyati          #+#    #+#             */
+/*   Updated: 2018/08/08 15:10:45 by vzamyati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	ft_free(char ***str)
+int			ft_countlines(char *str)
 {
-	size_t i;
+	int		lines;
+	int		i;
 
+	lines = 0;
 	i = 0;
-	if (str != NULL)
+	if (!str)
+		return (-1);
+	while (str[i])
 	{
-		while (*(*str + i) != 0)
-		{
-			free(*(*str + i));
-			i++;
-		}
-		free(*str);
-		*str = NULL;
+		if (str[i] == '\n' || str[i + 1] == '\0')
+			lines++;
+		i++;
 	}
+	return (lines);
 }
