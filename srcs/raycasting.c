@@ -10,118 +10,121 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "w3d.h"
 
-void				ray_draw(t_env *wolf)
+void		set_texture(t_env *w)
 {
-	wolf->rayc.height = (int)(W_HEIGHT / wolf->rayc.pwd);
-	wolf->rayc.start = -wolf->rayc.height / 2 + W_HEIGHT / 2;
-	if (wolf->rayc.start < 0)
-		wolf->rayc.start = 0;
-	wolf->rayc.end = wolf->rayc.height / 2 + W_HEIGHT / 2;
-	if (wolf->rayc.end >= W_HEIGHT)
-		wolf->rayc.end = W_HEIGHT - 1;
-	wolf->rayc.texture_nb = wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] - 1;
-	get_texture(wolf);
-	if (wolf->rayc.hit_side == 0)
-		wolf->rayc.wall_x = wolf->rayc.pos.y + wolf->rayc.pwd * wolf->rayc.dirt.y;
+	if (w->rayc.hit_side == 0)
+		w->rayc.wall_x = w->rayc.pos.y + w->rayc.pwd * w->rayc.dirt.y;
 	else
-		wolf->rayc.wall_x = wolf->rayc.pos.x + wolf->rayc.pwd * wolf->rayc.dirt.x;
-	wolf->rayc.wall_x -= floor((wolf->rayc.wall_x));
-	wolf->rayc.texture_x = (int)(wolf->rayc.wall_x * (float)TEXTURE_WIDTH);
-	if (wolf->rayc.hit_side == 0 && wolf->rayc.dirt.x > 0)
-		wolf->rayc.texture_x = TEXTURE_WIDTH - wolf->rayc.texture_x - 1;
-	if (wolf->rayc.hit_side == 1 && wolf->rayc.dirt.y < 0)
-		wolf->rayc.texture_x = TEXTURE_WIDTH - wolf->rayc.texture_x - 1;
-	wolf->player.oldtime = wolf->player.time;
-	wolf->player.time = clock();
-	wolf->player.frametime = (wolf->player.time - wolf->player.oldtime) / 1000.0;
-	wolf->player.s_move = wolf->player.frametime * 5.0;
-	wolf->player.s_rot = wolf->player.frametime * 1.5;
+		w->rayc.wall_x = w->rayc.pos.x + w->rayc.pwd * w->rayc.dirt.x;
+	w->rayc.wall_x -= floor((w->rayc.wall_x));
+	w->rayc.texture_x = (int)(w->rayc.wall_x * (float)TEXTURE_WIDTH);
+	if (w->rayc.hit_side == 0 && w->rayc.dirt.x > 0)
+		w->rayc.texture_x = TEXTURE_WIDTH - w->rayc.texture_x - 1;
+	if (w->rayc.hit_side == 1 && w->rayc.dirt.y < 0)
+		w->rayc.texture_x = TEXTURE_WIDTH - w->rayc.texture_x - 1;
+	w->player.oldtime = w->player.time;
+	w->player.time = clock();
+	w->player.frametime = (w->player.time - w->player.oldtime) / 1000.0;
+	w->player.s_move = w->player.frametime * 5.0;
+	w->player.s_rot = w->player.frametime * 1.5;
+	lets_draw_walls(w, w->rayc.x, w->rayc.start, w->rayc.end);
 }
 
-void		ray_dist(t_env *wolf)
+void		ray_draw(t_env *w)
 {
-	while (wolf->rayc.hit == 0)
+	w->rayc.height = (int)(W_HEIGHT / w->rayc.pwd);
+	w->rayc.start = -w->rayc.height / 2 + W_HEIGHT / 2;
+	if (w->rayc.start < 0)
+		w->rayc.start = 0;
+	w->rayc.end = w->rayc.height / 2 + W_HEIGHT / 2;
+	if (w->rayc.end >= W_HEIGHT)
+		w->rayc.end = W_HEIGHT - 1;
+	w->rayc.texture_nb = w->map[w->rayc.map_x][w->rayc.map_y] - 1;
+	get_texture(w);
+}
+
+void		ray_dist(t_env *w)
+{
+	while (w->rayc.hit == 0)
 	{
-		if (wolf->rayc.side.x < wolf->rayc.side.y)
+		if (w->rayc.side.x < w->rayc.side.y)
 		{
-			wolf->rayc.side.x += wolf->rayc.delta.x;
-			wolf->rayc.map_x += wolf->rayc.step_x;
-			wolf->rayc.hit_side = 0;
+			w->rayc.side.x += w->rayc.delta.x;
+			w->rayc.map_x += w->rayc.step_x;
+			w->rayc.hit_side = 0;
 		}
 		else
 		{
-			wolf->rayc.side.y += wolf->rayc.delta.y;
-			wolf->rayc.map_y += wolf->rayc.step_y;
-			wolf->rayc.hit_side = 1;
+			w->rayc.side.y += w->rayc.delta.y;
+			w->rayc.map_y += w->rayc.step_y;
+			w->rayc.hit_side = 1;
 		}
-		if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] > 0)
-		{
-			wolf->rayc.hit = 1;
-			if (wolf->rayc.hit_side == 0)
-				wolf->rayc.pwd = (wolf->rayc.map_x - wolf->rayc.pos.x +
-					(1 - wolf->rayc.step_x) / 2) / wolf->rayc.dirt.x;
-			else
-				wolf->rayc.pwd = (wolf->rayc.map_y - wolf->rayc.pos.y +
-					(1 - wolf->rayc.step_y) / 2) / wolf->rayc.dirt.y;
-		}
+		if (w->map[w->rayc.map_x][w->rayc.map_y] > 0)
+			w->rayc.hit = 1;
 	}
+	if (w->rayc.hit_side == 0)
+		w->rayc.pwd = (w->rayc.map_x - w->rayc.pos.x +
+			(1 - w->rayc.step_x) / 2) / w->rayc.dirt.x;
+	else
+		w->rayc.pwd = (w->rayc.map_y - w->rayc.pos.y +
+			(1 - w->rayc.step_y) / 2) / w->rayc.dirt.y;
 }
 
-void	ray_step(t_env *wolf)
+void		ray_step(t_env *w)
 {
-	if (wolf->rayc.dirt.x < 0)
+	if (w->rayc.dirt.x < 0)
 	{
-		wolf->rayc.step_x = -1;
-		wolf->rayc.side.x = (wolf->rayc.pos.x -
-			(int)wolf->rayc.pos.x) * wolf->rayc.delta.x;
+		w->rayc.step_x = -1;
+		w->rayc.side.x = (w->rayc.pos.x -
+			(int)w->rayc.pos.x) * w->rayc.delta.x;
 	}
 	else
 	{
-		wolf->rayc.step_x = 1;
-		wolf->rayc.side.x = ((int)wolf->rayc.pos.x + 1.0 -
-			wolf->rayc.pos.x) * wolf->rayc.delta.x;
+		w->rayc.step_x = 1;
+		w->rayc.side.x = ((int)w->rayc.pos.x + 1.0 -
+			w->rayc.pos.x) * w->rayc.delta.x;
 	}
-	if (wolf->rayc.dirt.y < 0)
+	if (w->rayc.dirt.y < 0)
 	{
-		wolf->rayc.step_y = -1;
-		wolf->rayc.side.y = (wolf->rayc.pos.y -
-			(int)wolf->rayc.pos.y) * wolf->rayc.delta.y;
+		w->rayc.step_y = -1;
+		w->rayc.side.y = (w->rayc.pos.y -
+			(int)w->rayc.pos.y) * w->rayc.delta.y;
 	}
 	else
 	{
-		wolf->rayc.step_y = 1;
-		wolf->rayc.side.y = ((int)wolf->rayc.pos.y + 1.0 -
-			wolf->rayc.pos.y) * wolf->rayc.delta.y;
+		w->rayc.step_y = 1;
+		w->rayc.side.y = ((int)w->rayc.pos.y + 1.0 -
+			w->rayc.pos.y) * w->rayc.delta.y;
 	}
 }
 
-void	raycasting(t_env *wolf)
+void		raycasting(t_env *w)
 {
-	int x;
-
-	wolf->rayc.pos.x = wolf->player.pos.x;
-	wolf->rayc.pos.y = wolf->player.pos.y;
-	x = -1;
-	while (++x < W_WIDTH)
+	w->rayc.x = -1;
+	w->rayc.y = 0;
+	w->rayc.d = 0;
+	while (++w->rayc.x < W_WIDTH)
 	{
-		wolf->rayc.camera = 2 * x / (float)W_WIDTH - 1;
-		wolf->rayc.dirt.x = wolf->player.dirt.x +
-		wolf->player.plane.x * wolf->rayc.camera;
-		wolf->rayc.dirt.y = wolf->player.dirt.y +
-		wolf->player.plane.y * wolf->rayc.camera;
-		wolf->rayc.map_x = (int)wolf->rayc.pos.x;
-		wolf->rayc.map_y = (int)wolf->rayc.pos.y;
-		wolf->rayc.delta.x = sqrt(1 + (wolf->rayc.dirt.y * wolf->rayc.dirt.y) / 
-			(wolf->rayc.dirt.x * wolf->rayc.dirt.x));
-		wolf->rayc.delta.y = sqrt(1 + (wolf->rayc.dirt.x * wolf->rayc.dirt.x) / 
-			(wolf->rayc.dirt.y * wolf->rayc.dirt.y));
-		wolf->rayc.hit = 0;
-		wolf->rayc.hit_side = 0;
-		ray_step(wolf);
-		ray_dist(wolf);
-		ray_draw(wolf);
-		lets_draw(wolf, x, wolf->rayc.start, wolf->rayc.end);
+		w->rayc.camera = 2 * w->rayc.x / (double)W_WIDTH - 1;
+		w->rayc.pos.x = w->player.pos.x;
+		w->rayc.pos.y = w->player.pos.y;
+		w->rayc.dirt.x = w->player.dirt.x +
+		w->player.plane.x * w->rayc.camera;
+		w->rayc.dirt.y = w->player.dirt.y +
+		w->player.plane.y * w->rayc.camera;
+		w->rayc.map_x = (int)w->rayc.pos.x;
+		w->rayc.map_y = (int)w->rayc.pos.y;
+		w->rayc.delta.x = sqrt(1 + (w->rayc.dirt.y * w->rayc.dirt.y) /
+			(w->rayc.dirt.x * w->rayc.dirt.x));
+		w->rayc.delta.y = sqrt(1 + (w->rayc.dirt.x * w->rayc.dirt.x) /
+			(w->rayc.dirt.y * w->rayc.dirt.y));
+		w->rayc.hit = 0;
+		ray_step(w);
+		ray_dist(w);
+		ray_draw(w);
+		set_texture(w);
+		lets_draw_floor(w);
 	}
 }

@@ -10,68 +10,68 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "w3d.h"
 
-void		key_up(t_env *wolf)
+void		key_up(t_env *w)
 {
-	if (wolf->player.flag.shift)
+	if (w->player.flag.shift)
 	{
-		if (wolf->map[(int)(wolf->player.pos.x + wolf->player.dirt.x *
-		wolf->player.s_shift)][(int)wolf->player.pos.y] == 0)
-			wolf->player.pos.x += wolf->player.dirt.x * wolf->player.s_shift;
-		if (wolf->map[(int)wolf->player.pos.x][(int)(wolf->player.pos.y +
-		wolf->player.dirt.y * wolf->player.s_shift)] == 0)
-			wolf->player.pos.y += wolf->player.dirt.y * wolf->player.s_shift;
+		if (w->map[(int)(w->player.pos.x + w->player.dirt.x *
+		w->player.s_shift)][(int)w->player.pos.y] == 0)
+			w->player.pos.x += w->player.dirt.x * w->player.s_shift;
+		if (w->map[(int)w->player.pos.x][(int)(w->player.pos.y +
+		w->player.dirt.y * w->player.s_shift)] == 0)
+			w->player.pos.y += w->player.dirt.y * w->player.s_shift;
 	}
 	else
 	{
-		if (wolf->map[(int)(wolf->player.pos.x + wolf->player.dirt.x *
-		wolf->player.s_move)][(int)wolf->player.pos.y] == 0)
-			wolf->player.pos.x += wolf->player.dirt.x * wolf->player.s_move;
-		if (wolf->map[(int)wolf->player.pos.x][(int)(wolf->player.pos.y +
-		wolf->player.dirt.y * wolf->player.s_move)] == 0)
-			wolf->player.pos.y += wolf->player.dirt.y * wolf->player.s_move;
+		if (w->map[(int)(w->player.pos.x + w->player.dirt.x *
+		w->player.s_move)][(int)w->player.pos.y] == 0)
+			w->player.pos.x += w->player.dirt.x * w->player.s_move;
+		if (w->map[(int)w->player.pos.x][(int)(w->player.pos.y +
+		w->player.dirt.y * w->player.s_move)] == 0)
+			w->player.pos.y += w->player.dirt.y * w->player.s_move;
 	}
 }
 
-void		key_down(t_env *wolf)
+void		key_down(t_env *w)
 {
-	if (wolf->map[(int)(wolf->player.pos.x - wolf->player.dirt.x *
-	wolf->player.s_move)][(int)wolf->player.pos.y] == 0)
-		wolf->player.pos.x -= wolf->player.dirt.x * wolf->player.s_move;
-	if (wolf->map[(int)wolf->player.pos.x][(int)(wolf->player.pos.y -
-	wolf->player.dirt.y * wolf->player.s_move)] == 0)
-		wolf->player.pos.y -= wolf->player.dirt.y * wolf->player.s_move;
+	if (w->map[(int)(w->player.pos.x - w->player.dirt.x *
+	w->player.s_move)][(int)w->player.pos.y] == 0)
+		w->player.pos.x -= w->player.dirt.x * w->player.s_move;
+	if (w->map[(int)w->player.pos.x][(int)(w->player.pos.y -
+	w->player.dirt.y * w->player.s_move)] == 0)
+		w->player.pos.y -= w->player.dirt.y * w->player.s_move;
 }
 
-void		key_left(t_env *wolf)
+void		key_left(t_env *w)
 {
 	double	tmp_x;
 
-	tmp_x = wolf->player.dirt.x;
-	wolf->player.dirt.x = wolf->player.dirt.x * cos(-wolf->player.s_rot) -
-	wolf->player.dirt.y * sin(-wolf->player.s_rot);
-	wolf->player.dirt.y = tmp_x * sin(-wolf->player.s_rot) +
-	wolf->player.dirt.y * cos(-wolf->player.s_rot);
-	tmp_x = wolf->player.plane.x;
-	wolf->player.plane.x = wolf->player.plane.x * cos(-wolf->player.s_rot) -
-	wolf->player.plane.y * sin(-wolf->player.s_rot);
-	wolf->player.plane.y = tmp_x * sin(-wolf->player.s_rot) +
-	wolf->player.plane.y * cos(-wolf->player.s_rot);
+	tmp_x = w->player.dirt.x;
+	w->player.dirt.x = w->player.dirt.x * cos(-w->player.s_rot) -
+	w->player.dirt.y * sin(-w->player.s_rot);
+	w->player.dirt.y = tmp_x * sin(-w->player.s_rot) +
+	w->player.dirt.y * cos(-w->player.s_rot);
+	tmp_x = w->player.plane.x;
+	w->player.plane.x = w->player.plane.x * cos(-w->player.s_rot) -
+	w->player.plane.y * sin(-w->player.s_rot);
+	w->player.plane.y = tmp_x * sin(-w->player.s_rot) +
+	w->player.plane.y * cos(-w->player.s_rot);
 }
 
-void		key_right(t_env *wolf)
+void		key_right(t_env *w)
 {
 	double	tmp_x;
 
-	tmp_x = wolf->player.dirt.x;
-	wolf->player.dirt.x = wolf->player.dirt.x * cos(wolf->player.s_rot) -
-	wolf->player.dirt.y * sin(wolf->player.s_rot);
-	wolf->player.dirt.y = tmp_x * sin(wolf->player.s_rot) +
-	wolf->player.dirt.y * cos(wolf->player.s_rot);
-	tmp_x = wolf->player.plane.x;
-	wolf->player.plane.x = wolf->player.plane.x * cos(wolf->player.s_rot) -
-	wolf->player.plane.y * sin(wolf->player.s_rot);
-	wolf->player.plane.y = tmp_x * sin(wolf->player.s_rot) +
-	wolf->player.plane.y * cos(wolf->player.s_rot);
+	tmp_x = w->player.dirt.x;
+	w->player.dirt.x = w->player.dirt.x * cos(w->player.s_rot) -
+	w->player.dirt.y * sin(w->player.s_rot);
+	w->player.dirt.y = tmp_x * sin(w->player.s_rot) +
+	w->player.dirt.y * cos(w->player.s_rot);
+	tmp_x = w->player.plane.x;
+	w->player.plane.x = w->player.plane.x * cos(w->player.s_rot) -
+	w->player.plane.y * sin(w->player.s_rot);
+	w->player.plane.y = tmp_x * sin(w->player.s_rot) +
+	w->player.plane.y * cos(w->player.s_rot);
 }

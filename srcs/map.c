@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "w3d.h"
 
-static void		validate_map1(char *buf, int i, t_env *wolf)
+static void		validate_map1(char *buf, int i, t_env *w)
 {
 	int			len;
 
@@ -24,7 +24,7 @@ static void		validate_map1(char *buf, int i, t_env *wolf)
 		len++;
 		if (buf[i] == '\n')
 		{
-			if (len - 1 != wolf->map_width)
+			if (len - 1 != w->map_width)
 				ft_error("Wrong size!\n");
 			len = 0;
 		}
@@ -34,29 +34,29 @@ static void		validate_map1(char *buf, int i, t_env *wolf)
 	while (buf[i] != '\0' && buf[i] != '\n')
 	{
 		if (buf[i] == ' ')
-			wolf->map_width--;
+			w->map_width--;
 		i++;
 	}
 	ft_strdel(&buf);
 }
 
-static void		validate_map2(t_env *wolf)
+static void		validate_map2(t_env *w)
 {
 	int			i;
 
 	i = -1;
-	while (++i < wolf->map_width)
-		if (wolf->map[0][i] == 0 || wolf->map[wolf->map_height - 1][i] == 0)
+	while (++i < w->map_width)
+		if (w->map[0][i] == 0 || w->map[w->map_height - 1][i] == 0)
 			ft_error("opened map1\n");
 	i = -1;
-	while (++i < wolf->map_height)
-		if (wolf->map[i][0] == 0 || wolf->map[i][wolf->map_width - 1] == 0)
+	while (++i < w->map_height)
+		if (w->map[i][0] == 0 || w->map[i][w->map_width - 1] == 0)
 			ft_error("opened map2\n");
-	if (wolf->map[3][3] != 0)
+	if (w->map[3][3] != 0)
 		ft_error("no place\n");
 }
 
-static void		make_map(char *av, int i, t_env *wolf)
+static void		make_map(char *av, int i, t_env *w)
 {
 	char		*line;
 	int			j;
@@ -64,19 +64,19 @@ static void		make_map(char *av, int i, t_env *wolf)
 	int			k;
 
 	fd = open(av, O_RDONLY);
-	if (!(wolf->map = (int **)ft_memalloc(sizeof(int *) * wolf->map_height)))
+	if (!(w->map = (int **)ft_memalloc(sizeof(int *) * w->map_height)))
 		ft_error("Couldn't allocate memory.\n");
 	while (get_next_line(fd, &line) > 0)
 	{
 		j = -1;
 		k = 0;
-		if (!(wolf->map[i] = ft_memalloc(sizeof(int) * wolf->map_width)))
+		if (!(w->map[i] = ft_memalloc(sizeof(int) * w->map_width)))
 			ft_error("Couldn't allocate memory.\n");
-		while (++j < wolf->map_width)
+		while (++j < w->map_width)
 		{
 			if (line[k] == ' ')
 				k++;
-			wolf->map[i][j] = ft_atoi(&line[k]);
+			w->map[i][j] = ft_atoi(&line[k]);
 			k++;
 		}
 		i++;
@@ -84,7 +84,7 @@ static void		make_map(char *av, int i, t_env *wolf)
 	}
 }
 
-void			open_file(char *av, t_env *wolf)
+void			open_file(char *av, t_env *w)
 {
 	int			fd;
 	int			i;
@@ -94,10 +94,10 @@ void			open_file(char *av, t_env *wolf)
 	buf = ft_strnew(65536);
 	if ((fd = open(av, O_RDONLY)) < 0 || (read(fd, buf, 65536)) < 1)
 		ft_error("Couldn't open the file.\n");
-	wolf->map_width = ft_linelen(buf);
-	wolf->map_height = ft_countlines(buf);
-	validate_map1(buf, i, wolf);
+	w->map_width = ft_linelen(buf);
+	w->map_height = ft_countlines(buf);
+	validate_map1(buf, i, w);
 	close(fd);
-	make_map(av, i, wolf);
-	validate_map2(wolf);
+	make_map(av, i, w);
+	validate_map2(w);
 }

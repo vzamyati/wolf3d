@@ -10,23 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "w3d.h"
 
-void			delete_env(t_env **wolf)
+void		delete_env(t_env **w)
 {
-	if (!wolf || !(*wolf))
+	if (!w || !(*w))
 		return ;
-	if ((*wolf)->win)
-		mlx_destroy_window((*wolf)->mlx, (*wolf)->win);
-	if ((*wolf)->img)
-		mlx_destroy_image((*wolf)->mlx, (*wolf)->img);
-	ft_memdel((void**)wolf);
+	if ((*w)->win)
+		mlx_destroy_window((*w)->mlx, (*w)->win);
+	if ((*w)->img)
+		mlx_destroy_image((*w)->mlx, (*w)->img);
+	ft_memdel((void**)w);
 }
 
-int			f_exit(t_env *wolf)
+int			f_exit(t_env *w)
 {
-	if (wolf != NULL)
-		mlx_destroy_window(wolf->mlx, wolf->win);
+	if (w != NULL)
+		mlx_destroy_window(w->mlx, w->win);
 	system("pkill afplay");
 	exit(0);
 	return (0);
@@ -35,5 +35,5 @@ int			f_exit(t_env *wolf)
 void		ft_error(char *reason)
 {
 	ft_putstr_fd(reason, 2);
-	exit (1);
+	exit(1);
 }

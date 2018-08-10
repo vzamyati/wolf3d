@@ -10,53 +10,58 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "w3d.h"
 
-int		game_loop(t_env *wolf)
+int		game_loop(t_env *w)
 {
-	(wolf->player.flag.up) ? key_up(wolf) : 42;
-	(wolf->player.flag.down) ? key_down(wolf) : 42;
-	(wolf->player.flag.left) ? key_left(wolf) : 42;
-	(wolf->player.flag.right) ? key_right(wolf) : 42;
-	raycasting(wolf);
-	draw(wolf);
+	(w->player.flag.up) ? key_up(w) : 42;
+	(w->player.flag.down) ? key_down(w) : 42;
+	(w->player.flag.left) ? key_left(w) : 42;
+	(w->player.flag.right) ? key_right(w) : 42;
+	raycasting(w);
+	draw(w);
 	return (0);
 }
 
-int			key_press(int key, t_env *wolf)
+int		key_press(int key, t_env *w)
 {
 	if (key == ESC || key == Q)
-		f_exit(wolf);
+		f_exit(w);
 	if (key == W || key == ARR_UP)
-		wolf->player.flag.up = 1;
+		w->player.flag.up = 1;
 	if (key == S || key == ARR_DOWN)
-		wolf->player.flag.down = 1;
+		w->player.flag.down = 1;
 	if (key == A || key == ARR_LEFT)
-		wolf->player.flag.left = 1;
+		w->player.flag.left = 1;
 	if (key == D || key == ARR_RIGHT)
-		wolf->player.flag.right = 1;
+		w->player.flag.right = 1;
 	if (key == SHIFT1 || key == SHIFT2)
-		wolf->player.flag.shift = 1;
+		w->player.flag.shift = 1;
 	if (key == NEXT || key == PREV || key == OFF)
-		change_music(key, wolf);
+		change_music(key, w);
 	if (key == RESTART)
-		place_player(wolf);
+		place_player(w);
 	if (key == INFO)
-		(wolf->flag.info == 0) ? (wolf->flag.info = 1) : (wolf->flag.info = 0);
+	{
+		if (w->flag.info == 0)
+			w->flag.info = 1;
+		else
+			w->flag.info = 0;
+	}
 	return (0);
 }
 
-int			key_release(int key, t_env *wolf)
+int		key_release(int key, t_env *w)
 {
 	if (key == W || key == ARR_UP)
-		wolf->player.flag.up = 0;
+		w->player.flag.up = 0;
 	if (key == S || key == ARR_DOWN)
-		wolf->player.flag.down = 0;
+		w->player.flag.down = 0;
 	if (key == A || key == ARR_LEFT)
-		wolf->player.flag.left = 0;
+		w->player.flag.left = 0;
 	if (key == D || key == ARR_RIGHT)
-		wolf->player.flag.right = 0;
+		w->player.flag.right = 0;
 	if (key == SHIFT1 || key == SHIFT2)
-		wolf->player.flag.shift = 0;
+		w->player.flag.shift = 0;
 	return (0);
 }

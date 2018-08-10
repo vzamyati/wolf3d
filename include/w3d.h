@@ -113,6 +113,15 @@ typedef struct 			s_ray
 	float				wall_x;
 	int					texture_x; 
 	int					texture_y;
+	double				floorxwall;
+	double				floorywall;
+	double				dist_wall;
+	double				dist_player;
+	int 				floor_texx;
+	int 				floor_texy;
+	int 				x;
+	int 				y;
+	int 				d;
 }						t_ray;
 
 
@@ -149,7 +158,7 @@ void		init_player(t_env *wolf);
 void		load_textures(t_env *wolf);
 void		raycasting(t_env *wolf);
 void		get_texture(t_env *wolf);
-void		lets_draw(t_env *wolf, int x, int start, int end);
+void		lets_draw_walls(t_env *wolf, int x, int start, int end);
 void		draw(t_env *wolf);
 int 		expose(t_env *wolf);
 int			game_loop(t_env *wolf);
@@ -164,5 +173,7 @@ void		show_info(t_env *wolf);
 void		place_player(t_env *wolf);
 void		change_music(int key, t_env *wolf);
 void		fps(t_env *wolf);
+int			get_position(t_env *wolf, int x, int y);
+void		lets_draw_floor(t_env *w);
 
 #endif

@@ -10,78 +10,83 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "w3d.h"
 
-void	load_textures2(t_env *wolf)
+void	load_textures2(t_env *w)
 {
-	wolf->texture[5].ptr = mlx_xpm_file_to_image(wolf->mlx,
-		"textures/purplestone.xpm", &wolf->texture->width, &wolf->texture->height);
-	wolf->texture[5].data = mlx_get_data_addr(wolf->texture[5].ptr,
-	&wolf->texture[5].bpp, &wolf->texture[5].sizeline, &wolf->texture[5].endian);
-	wolf->texture[6].ptr = mlx_xpm_file_to_image(wolf->mlx,
-		"textures/flag.xpm", &wolf->texture->width, &wolf->texture->height);
-	wolf->texture[6].data = mlx_get_data_addr(wolf->texture[6].ptr,
-	&wolf->texture[6].bpp, &wolf->texture[6].sizeline, &wolf->texture[6].endian);
-	wolf->texture[7].ptr = mlx_xpm_file_to_image(wolf->mlx,
-		"textures/colorstone.xpm", &wolf->texture->width, &wolf->texture->height);
-	wolf->texture[7].data = mlx_get_data_addr(wolf->texture[7].ptr,
-	&wolf->texture[7].bpp, &wolf->texture[7].sizeline, &wolf->texture[7].endian);
-	wolf->texture[8].ptr = mlx_xpm_file_to_image(wolf->mlx,
-		"textures/wood.xpm", &wolf->texture->width, &wolf->texture->height);
-	wolf->texture[8].data = mlx_get_data_addr(wolf->texture[8].ptr,
-	&wolf->texture[8].bpp, &wolf->texture[8].sizeline, &wolf->texture[8].endian);
-	wolf->texture[9].ptr = mlx_xpm_file_to_image(wolf->mlx,
-		"textures/pillar.xpm", &wolf->texture->width, &wolf->texture->height);
-	wolf->texture[9].data = mlx_get_data_addr(wolf->texture[9].ptr,
-	&wolf->texture[9].bpp, &wolf->texture[9].sizeline, &wolf->texture[9].endian);
+	int a;
+	int b;
+
+	a = 512;
+	b = 512;
+	w->texture[5].ptr = mlx_xpm_file_to_image(w->mlx,
+		"textures/purplestone.xpm", &w->texture->width, &w->texture->height);
+	w->texture[5].data = mlx_get_data_addr(w->texture[5].ptr,
+	&w->texture[5].bpp, &w->texture[5].sizeline, &w->texture[5].endian);
+	w->texture[6].ptr = mlx_xpm_file_to_image(w->mlx,
+		"textures/flag.xpm", &w->texture->width, &w->texture->height);
+	w->texture[6].data = mlx_get_data_addr(w->texture[6].ptr,
+	&w->texture[6].bpp, &w->texture[6].sizeline, &w->texture[6].endian);
+	w->texture[7].ptr = mlx_xpm_file_to_image(w->mlx,
+		"textures/colorstone.xpm", &a, &b);
+	w->texture[7].data = mlx_get_data_addr(w->texture[7].ptr,
+	&w->texture[7].bpp, &w->texture[7].sizeline, &w->texture[7].endian);
+	w->texture[8].ptr = mlx_xpm_file_to_image(w->mlx,
+		"textures/wood.xpm", &w->texture->width, &w->texture->height);
+	w->texture[8].data = mlx_get_data_addr(w->texture[8].ptr,
+	&w->texture[8].bpp, &w->texture[8].sizeline, &w->texture[8].endian);
+	w->texture[9].ptr = mlx_xpm_file_to_image(w->mlx,
+		"textures/pillar.xpm", &w->texture->width, &w->texture->height);
+	w->texture[9].data = mlx_get_data_addr(w->texture[9].ptr,
+	&w->texture[9].bpp, &w->texture[9].sizeline, &w->texture[9].endian);
 }
 
-void	load_textures(t_env *wolf)
+void	load_textures(t_env *w)
 {
-	wolf->texture = (t_textur*)ft_memalloc(sizeof(t_textur) * 10);
-	wolf->texture[0].ptr = mlx_xpm_file_to_image(wolf->mlx,
-		"textures/redstone.xpm", &wolf->texture->width, &wolf->texture->height);
-	wolf->texture[0].data = mlx_get_data_addr(wolf->texture[0].ptr,
-	&wolf->texture[0].bpp, &wolf->texture[0].sizeline, &wolf->texture[0].endian);
-	wolf->texture[1].ptr = mlx_xpm_file_to_image(wolf->mlx,
-		"textures/greystone.xpm", &wolf->texture->width, &wolf->texture->height);
-	wolf->texture[1].data = mlx_get_data_addr(wolf->texture[1].ptr,
-	&wolf->texture[1].bpp, &wolf->texture[1].sizeline, &wolf->texture[1].endian);
-	wolf->texture[2].ptr = mlx_xpm_file_to_image(wolf->mlx,
-		"textures/bulestone.xpm", &wolf->texture->width, &wolf->texture->height);
-	wolf->texture[2].data = mlx_get_data_addr(wolf->texture[2].ptr,
-	&wolf->texture[2].bpp, &wolf->texture[2].sizeline, &wolf->texture[2].endian);
-	wolf->texture[3].ptr = mlx_xpm_file_to_image(wolf->mlx,
-		"textures/eagle.xpm", &wolf->texture->width, &wolf->texture->height);
-	wolf->texture[3].data = mlx_get_data_addr(wolf->texture[3].ptr,
-	&wolf->texture[3].bpp, &wolf->texture[3].sizeline, &wolf->texture[3].endian);
-	wolf->texture[4].ptr = mlx_xpm_file_to_image(wolf->mlx,
-		"textures/mossy.xpm", &wolf->texture->width, &wolf->texture->height);
-	wolf->texture[4].data = mlx_get_data_addr(wolf->texture[4].ptr,
-	&wolf->texture[4].bpp, &wolf->texture[4].sizeline, &wolf->texture[4].endian);
-	load_textures2(wolf);
+	w->texture = (t_textur*)ft_memalloc(sizeof(t_textur) * 10);
+	w->texture[0].ptr = mlx_xpm_file_to_image(w->mlx,
+		"textures/redstone.xpm", &w->texture->width, &w->texture->height);
+	w->texture[0].data = mlx_get_data_addr(w->texture[0].ptr,
+	&w->texture[0].bpp, &w->texture[0].sizeline, &w->texture[0].endian);
+	w->texture[1].ptr = mlx_xpm_file_to_image(w->mlx,
+		"textures/greystone.xpm", &w->texture->width, &w->texture->height);
+	w->texture[1].data = mlx_get_data_addr(w->texture[1].ptr,
+	&w->texture[1].bpp, &w->texture[1].sizeline, &w->texture[1].endian);
+	w->texture[2].ptr = mlx_xpm_file_to_image(w->mlx,
+		"textures/bulestone.xpm", &w->texture->width, &w->texture->height);
+	w->texture[2].data = mlx_get_data_addr(w->texture[2].ptr,
+	&w->texture[2].bpp, &w->texture[2].sizeline, &w->texture[2].endian);
+	w->texture[3].ptr = mlx_xpm_file_to_image(w->mlx,
+		"textures/eagle.xpm", &w->texture->width, &w->texture->height);
+	w->texture[3].data = mlx_get_data_addr(w->texture[3].ptr,
+	&w->texture[3].bpp, &w->texture[3].sizeline, &w->texture[3].endian);
+	w->texture[4].ptr = mlx_xpm_file_to_image(w->mlx,
+		"textures/mossy.xpm", &w->texture->width, &w->texture->height);
+	w->texture[4].data = mlx_get_data_addr(w->texture[4].ptr,
+	&w->texture[4].bpp, &w->texture[4].sizeline, &w->texture[4].endian);
+	load_textures2(w);
 }
 
-void	get_texture(t_env *wolf)
+void	get_texture(t_env *w)
 {
-	if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 1)
-		wolf->rayc.texture_nb = 0;
-	else if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 2)
-		wolf->rayc.texture_nb = 1;
-	else if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 3)
-		wolf->rayc.texture_nb = 2;
-	else if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 4)
-		wolf->rayc.texture_nb = 3;
-	else if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 5)
-		wolf->rayc.texture_nb = 4;
-	else if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 6)
-		wolf->rayc.texture_nb = 5;
-	else if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 7)
-		wolf->rayc.texture_nb = 6;
-	else if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 8)
-		wolf->rayc.texture_nb = 7;
-	else if (wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] == 9)
-		wolf->rayc.texture_nb = 8;
+	if (w->map[w->rayc.map_x][w->rayc.map_y] == 1)
+		w->rayc.texture_nb = 0;
+	else if (w->map[w->rayc.map_x][w->rayc.map_y] == 2)
+		w->rayc.texture_nb = 1;
+	else if (w->map[w->rayc.map_x][w->rayc.map_y] == 3)
+		w->rayc.texture_nb = 2;
+	else if (w->map[w->rayc.map_x][w->rayc.map_y] == 4)
+		w->rayc.texture_nb = 3;
+	else if (w->map[w->rayc.map_x][w->rayc.map_y] == 5)
+		w->rayc.texture_nb = 4;
+	else if (w->map[w->rayc.map_x][w->rayc.map_y] == 6)
+		w->rayc.texture_nb = 5;
+	else if (w->map[w->rayc.map_x][w->rayc.map_y] == 7)
+		w->rayc.texture_nb = 6;
+	else if (w->map[w->rayc.map_x][w->rayc.map_y] == 8)
+		w->rayc.texture_nb = 7;
+	else if (w->map[w->rayc.map_x][w->rayc.map_y] == 9)
+		w->rayc.texture_nb = 8;
 	else
-		wolf->rayc.texture_nb = 9;
+		w->rayc.texture_nb = 9;
 }
