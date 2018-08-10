@@ -17,12 +17,14 @@ MLX = -lmlx -framework AppKit -framework OpenGl -O3
 
 SRC_FILES = 	main.c \
 				events.c \
-				init.c \
+				player.c \
 				map.c \
 				clean.c \
 				texture.c \
 				raycasting.c \
-				draw.c 
+				draw.c \
+				moves.c \
+				adds.c 
 
 
 OBJ_NAME = $(SRC_FILES:%.c=%.o)

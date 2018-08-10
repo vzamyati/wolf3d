@@ -22,3 +22,18 @@ void			delete_env(t_env **wolf)
 		mlx_destroy_image((*wolf)->mlx, (*wolf)->img);
 	ft_memdel((void**)wolf);
 }
+
+int			f_exit(t_env *wolf)
+{
+	if (wolf != NULL)
+		mlx_destroy_window(wolf->mlx, wolf->win);
+	system("pkill afplay");
+	exit(0);
+	return (0);
+}
+
+void		ft_error(char *reason)
+{
+	ft_putstr_fd(reason, 2);
+	exit (1);
+}

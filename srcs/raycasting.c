@@ -12,7 +12,7 @@
 
 #include "wolf3d.h"
 
-void				ray_draw(t_env *wolf, int x)
+void				ray_draw(t_env *wolf)
 {
 	wolf->rayc.height = (int)(W_HEIGHT / wolf->rayc.pwd);
 	wolf->rayc.start = -wolf->rayc.height / 2 + W_HEIGHT / 2;
@@ -21,8 +21,8 @@ void				ray_draw(t_env *wolf, int x)
 	wolf->rayc.end = wolf->rayc.height / 2 + W_HEIGHT / 2;
 	if (wolf->rayc.end >= W_HEIGHT)
 		wolf->rayc.end = W_HEIGHT - 1;
-	load_textures(wolf);
 	wolf->rayc.texture_nb = wolf->map[wolf->rayc.map_x][wolf->rayc.map_y] - 1;
+	get_texture(wolf);
 	if (wolf->rayc.hit_side == 0)
 		wolf->rayc.wall_x = wolf->rayc.pos.y + wolf->rayc.pwd * wolf->rayc.dirt.y;
 	else
@@ -36,9 +36,8 @@ void				ray_draw(t_env *wolf, int x)
 	wolf->player.oldtime = wolf->player.time;
 	wolf->player.time = clock();
 	wolf->player.frametime = (wolf->player.time - wolf->player.oldtime) / 1000.0;
-	// wolf->player.s_move = wolf->player.frametime * 2.0;
-	// wolf->player.s_turn = wolf->player.frametime * 1.5;
-	lets_draw(wolf, x, wolf->rayc.start, wolf->rayc.end);
+	wolf->player.s_move = wolf->player.frametime * 5.0;
+	wolf->player.s_rot = wolf->player.frametime * 1.5;
 }
 
 void		ray_dist(t_env *wolf)
@@ -98,14 +97,6 @@ void	ray_step(t_env *wolf)
 	}
 }
 
-void				change_color(t_env *wolf)
-{
-	if (wolf->player.pos.x < 23 && wolf->player.pos.y < 33)
-		wolf->ceil = 0x000000;
-	else
-		wolf->ceil = 0xe7e7ff;
-}
-
 void	raycasting(t_env *wolf)
 {
 	int x;
@@ -130,7 +121,7 @@ void	raycasting(t_env *wolf)
 		wolf->rayc.hit_side = 0;
 		ray_step(wolf);
 		ray_dist(wolf);
-		ray_draw(wolf, x);
-		change_color(wolf);
+		ray_draw(wolf);
+		lets_draw(wolf, x, wolf->rayc.start, wolf->rayc.end);
 	}
 }

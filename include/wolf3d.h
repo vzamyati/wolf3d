@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef 	WOLF3D_H
+#ifndef		WOLF3D_H
 # define	WOLF3D_H
 
 # include "../libft/include/libft.h"
@@ -28,18 +28,42 @@
 # define TEXTURE_HEIGHT	64
 
 # define ESC			53
+
 # define Q				12
 # define W				13
 # define S				1
 # define A				0
 # define D				2
-# define SHIFT			257
+
+# define SHIFT1			257
+# define SHIFT2			258
+
+# define ARR_UP			126
+# define ARR_DOWN		125
+# define ARR_LEFT		123
+# define ARR_RIGHT		124
+# define NEXT			47
+# define PREV			43
+# define OFF			31
+# define RESTART		15
+# define INFO 			34
 
 typedef struct 			s_var
 {
 	double				x;
 	double				y;
 }						t_var;
+
+typedef struct 			s_flag
+{
+	int 				info;
+	int 				music;
+	int 				up;
+	int 				down;
+	int 				left;
+	int 				right;
+	int 				shift;
+}						t_flag;
 
 typedef struct 			s_textur
 {
@@ -57,14 +81,10 @@ typedef struct 			s_player
 	t_var 				pos;
 	t_var				dirt;
 	t_var				plane;
+	t_flag				flag;
 	float				s_move;
-	float				s_turn;
+	float				s_rot;
 	float				s_shift;
-	int 				up;
-	int 				down;
-	int 				left;
-	int 				right;
-	int 				shift;
 	double				time;
 	double				oldtime;
 	double				frametime;
@@ -110,15 +130,18 @@ typedef struct			s_env
 	int 				map_width;
 	int 				ceil;
 	int 				floor;
+	int 				fps;
+	char				*speed;
 	t_player			player;
 	t_textur			*texture;
 	t_ray				rayc;
+	t_flag				flag;
 }						t_env;
 
 int			f_exit(t_env *wolf);
 int			key_press(int key, t_env *wolf);
 void		delete_env(t_env **wolf);
-t_env			*init_env(void);
+t_env		*init_env(void);
 void		init_img(t_env *wolf);
 void		ft_error(char *reason);
 void 		open_file(char *line, t_env *wolf);
@@ -131,4 +154,15 @@ void		draw(t_env *wolf);
 int 		expose(t_env *wolf);
 int			game_loop(t_env *wolf);
 int			key_release(int key, t_env *wolf);
+void		draw(t_env *wolf);
+void		key_up(t_env *wolf);
+void		key_down(t_env *wolf);
+void		key_left(t_env *wolf);
+void		key_right(t_env *wolf);
+void		cross(t_env *wolf);
+void		show_info(t_env *wolf);
+void		place_player(t_env *wolf);
+void		change_music(int key, t_env *wolf);
+void		fps(t_env *wolf);
+
 #endif

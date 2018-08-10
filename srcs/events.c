@@ -12,121 +12,51 @@
 
 #include "wolf3d.h"
 
-int			f_exit(t_env *wolf)
+int		game_loop(t_env *wolf)
 {
-	if (wolf != NULL)
-		mlx_destroy_window(wolf->mlx, wolf->win);
-	exit(0);
+	(wolf->player.flag.up) ? key_up(wolf) : 42;
+	(wolf->player.flag.down) ? key_down(wolf) : 42;
+	(wolf->player.flag.left) ? key_left(wolf) : 42;
+	(wolf->player.flag.right) ? key_right(wolf) : 42;
+	raycasting(wolf);
+	draw(wolf);
 	return (0);
-}
-
-void		key_up(t_env *wolf)
-{
-	if (wolf->player.shift)
-	{
-		if (wolf->map[(int)(wolf->player.pos.x + wolf->player.dirt.x *
-		wolf->player.s_shift)][(int)wolf->player.pos.y] == 0)
-			wolf->player.pos.x += wolf->player.dirt.x * wolf->player.s_shift;
-		if (wolf->map[(int)wolf->player.pos.x][(int)(wolf->player.pos.y +
-		wolf->player.dirt.y * wolf->player.s_shift)] == 0)
-			wolf->player.pos.y += wolf->player.dirt.y * wolf->player.s_shift;
-	}
-	else
-	{
-		if (wolf->map[(int)(wolf->player.pos.x + wolf->player.dirt.x *
-		wolf->player.s_move)][(int)wolf->player.pos.y] == 0)
-			wolf->player.pos.x += wolf->player.dirt.x * wolf->player.s_move;
-		if (wolf->map[(int)wolf->player.pos.x][(int)(wolf->player.pos.y +
-		wolf->player.dirt.y * wolf->player.s_move)] == 0)
-			wolf->player.pos.y += wolf->player.dirt.y * wolf->player.s_move;
-	}
-}
-
-void		key_down(t_env *wolf)
-{
-	if (wolf->map[(int)(wolf->player.pos.x - wolf->player.dirt.x *
-	wolf->player.s_move)][(int)wolf->player.pos.y] == 0)
-		wolf->player.pos.x -= wolf->player.dirt.x * wolf->player.s_move;
-	if (wolf->map[(int)wolf->player.pos.x][(int)(wolf->player.pos.y -
-	wolf->player.dirt.y * wolf->player.s_move)] == 0)
-		wolf->player.pos.y -= wolf->player.dirt.y * wolf->player.s_move;
-}
-
-void		key_left(t_env *wolf)
-{
-	t_var	tmp;
-
-	tmp.x = wolf->player.dirt.x;
-	wolf->player.dirt.x = wolf->player.dirt.x * cos(wolf->player.s_turn) -
-	wolf->player.dirt.y * sin(wolf->player.s_turn);
-	wolf->player.dirt.y = tmp.x * sin(wolf->player.s_turn) +
-	wolf->player.dirt.y * cos(wolf->player.s_turn);
-	tmp.x = wolf->player.plane.x;
-	wolf->player.plane.x = wolf->player.plane.x * cos(wolf->player.s_turn) -
-	wolf->player.plane.y * sin(wolf->player.s_turn);
-	wolf->player.plane.y = tmp.x * sin(wolf->player.s_turn) +
-	wolf->player.plane.y * cos(wolf->player.s_turn);
-}
-
-void		key_right(t_env *wolf)
-{
-	t_var	tmp;
-
-	tmp.x = wolf->player.dirt.x;
-	wolf->player.dirt.x = wolf->player.dirt.x * cos(-wolf->player.s_turn) -
-	wolf->player.dirt.y * sin(-wolf->player.s_turn);
-	wolf->player.dirt.y = tmp.x * sin(-wolf->player.s_turn) +
-	wolf->player.dirt.y * cos(-wolf->player.s_turn);
-	tmp.x = wolf->player.plane.x;
-	wolf->player.plane.x = wolf->player.plane.x * cos(-wolf->player.s_turn) -
-	wolf->player.plane.y * sin(-wolf->player.s_turn);
-	wolf->player.plane.y = tmp.x * sin(-wolf->player.s_turn) +
-	wolf->player.plane.y * cos(-wolf->player.s_turn);
 }
 
 int			key_press(int key, t_env *wolf)
 {
 	if (key == ESC || key == Q)
 		f_exit(wolf);
-	if (key == W)
-		wolf->player.up = 1;
-	if (key == S)
-		wolf->player.down = 1;
-	if (key == A)
-		wolf->player.left = 1;
-	if (key == D)
-		wolf->player.right = 1;
-	if (key == SHIFT)
-		wolf->player.shift = 1;
+	if (key == W || key == ARR_UP)
+		wolf->player.flag.up = 1;
+	if (key == S || key == ARR_DOWN)
+		wolf->player.flag.down = 1;
+	if (key == A || key == ARR_LEFT)
+		wolf->player.flag.left = 1;
+	if (key == D || key == ARR_RIGHT)
+		wolf->player.flag.right = 1;
+	if (key == SHIFT1 || key == SHIFT2)
+		wolf->player.flag.shift = 1;
+	if (key == NEXT || key == PREV || key == OFF)
+		change_music(key, wolf);
+	if (key == RESTART)
+		place_player(wolf);
+	if (key == INFO)
+		(wolf->flag.info == 0) ? (wolf->flag.info = 1) : (wolf->flag.info = 0);
 	return (0);
 }
 
 int			key_release(int key, t_env *wolf)
 {
-	if (key == W)
-		wolf->player.up = 0;
-	if (key == S)
-		wolf->player.down = 0;
-	if (key == A)
-		wolf->player.left = 0;
-	if (key == D)
-		wolf->player.right = 0;
-	if (key == SHIFT)
-		wolf->player.shift = 0;
-	return (0);
-}
-
-int		game_loop(t_env *wolf)
-{
-	if (wolf->player.up)
-		key_up(wolf);
-	if (wolf->player.down)
-		key_down(wolf);
-	if (wolf->player.left)
-		key_left(wolf);
-	if (wolf->player.right)
-		key_right(wolf);
-	raycasting(wolf);
-	draw(wolf);
+	if (key == W || key == ARR_UP)
+		wolf->player.flag.up = 0;
+	if (key == S || key == ARR_DOWN)
+		wolf->player.flag.down = 0;
+	if (key == A || key == ARR_LEFT)
+		wolf->player.flag.left = 0;
+	if (key == D || key == ARR_RIGHT)
+		wolf->player.flag.right = 0;
+	if (key == SHIFT1 || key == SHIFT2)
+		wolf->player.flag.shift = 0;
 	return (0);
 }

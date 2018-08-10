@@ -54,13 +54,12 @@ void				lets_draw(t_env *wolf, int x, int start, int end)
 		draw_pixel(wolf, x, i, wolf->floor);
 }
 
-void		draw(t_env *wolf)
+void	draw(t_env *wolf)
 {
-	wolf->img = mlx_new_image(wolf->mlx, W_WIDTH, W_HEIGHT);
-	wolf->data = mlx_get_data_addr(wolf->img, &wolf->bpp,
-		&wolf->sizeline, &wolf->endian);
-	raycasting(wolf);
 	mlx_clear_window(wolf->mlx, wolf->win);
 	mlx_put_image_to_window(wolf->mlx, wolf->win, wolf->img, 0, 0);
-	mlx_destroy_image(wolf->mlx, wolf->img);
+	if (wolf->flag.info == 1)
+		show_info(wolf);
+	cross(wolf);
+	fps(wolf);
 }

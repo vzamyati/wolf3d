@@ -12,15 +12,11 @@
 
 #include "wolf3d.h"
 
-static void	validate_map1(char *buf, t_env *wolf)
+static void		validate_map1(char *buf, int i, t_env *wolf)
 {
-	int		i;
-	int		len;
+	int			len;
 
 	len = 0;
-	i = 0;
-	wolf->map_width = ft_linelen(buf);
-	wolf->map_height = ft_countlines(buf);
 	while (buf[i] && buf[i] != '\0')
 	{
 		if ((buf[i] < 48 || buf[i] > 57) && buf[i] != ' ' && buf[i] != '\n')
@@ -44,9 +40,9 @@ static void	validate_map1(char *buf, t_env *wolf)
 	ft_strdel(&buf);
 }
 
-static void	validate_map2(t_env *wolf)
+static void		validate_map2(t_env *wolf)
 {
-	int		i;
+	int			i;
 
 	i = -1;
 	while (++i < wolf->map_width)
@@ -60,15 +56,13 @@ static void	validate_map2(t_env *wolf)
 		ft_error("no place\n");
 }
 
-static void	make_map(char *av, t_env *wolf)
+static void		make_map(char *av, int i, t_env *wolf)
 {
-	char 	*line;
-	int 	j;
-	int		i;
-	int		fd;
-	int		k;
+	char		*line;
+	int			j;
+	int			fd;
+	int			k;
 
-	i = 0;
 	fd = open(av, O_RDONLY);
 	if (!(wolf->map = (int **)ft_memalloc(sizeof(int *) * wolf->map_height)))
 		ft_error("Couldn't allocate memory.\n");
@@ -79,7 +73,7 @@ static void	make_map(char *av, t_env *wolf)
 		if (!(wolf->map[i] = ft_memalloc(sizeof(int) * wolf->map_width)))
 			ft_error("Couldn't allocate memory.\n");
 		while (++j < wolf->map_width)
-		{	
+		{
 			if (line[k] == ' ')
 				k++;
 			wolf->map[i][j] = ft_atoi(&line[k]);
@@ -90,16 +84,20 @@ static void	make_map(char *av, t_env *wolf)
 	}
 }
 
-void 	open_file(char *av, t_env *wolf)
+void			open_file(char *av, t_env *wolf)
 {
-	int fd;
-	char *buf;
+	int			fd;
+	int			i;
+	char		*buf;
 
+	i = 0;
 	buf = ft_strnew(65536);
 	if ((fd = open(av, O_RDONLY)) < 0 || (read(fd, buf, 65536)) < 1)
 		ft_error("Couldn't open the file.\n");
-	validate_map1(buf, wolf);
+	wolf->map_width = ft_linelen(buf);
+	wolf->map_height = ft_countlines(buf);
+	validate_map1(buf, i, wolf);
 	close(fd);
-	make_map(av, wolf);
+	make_map(av, i, wolf);
 	validate_map2(wolf);
 }
