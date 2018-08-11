@@ -24,7 +24,8 @@ SRC_FILES = 	main.c \
 				raycasting.c \
 				draw.c \
 				moves.c \
-				adds.c 
+				adds.c \
+				floor_ceil.c
 
 
 OBJ_NAME = $(SRC_FILES:%.c=%.o)

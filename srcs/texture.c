@@ -14,36 +14,27 @@
 
 void	load_textures2(t_env *w)
 {
-	int a;
-	int b;
-
-	a = 512;
-	b = 512;
 	w->texture[5].ptr = mlx_xpm_file_to_image(w->mlx,
 		"textures/purplestone.xpm", &w->texture->width, &w->texture->height);
 	w->texture[5].data = mlx_get_data_addr(w->texture[5].ptr,
 	&w->texture[5].bpp, &w->texture[5].sizeline, &w->texture[5].endian);
 	w->texture[6].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/flag.xpm", &w->texture->width, &w->texture->height);
+		"textures/mossy.xpm", &w->texture->width, &w->texture->height);
 	w->texture[6].data = mlx_get_data_addr(w->texture[6].ptr,
 	&w->texture[6].bpp, &w->texture[6].sizeline, &w->texture[6].endian);
 	w->texture[7].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/colorstone.xpm", &a, &b);
+		"textures/colorstone.xpm", &w->texture->width, &w->texture->height);
 	w->texture[7].data = mlx_get_data_addr(w->texture[7].ptr,
 	&w->texture[7].bpp, &w->texture[7].sizeline, &w->texture[7].endian);
 	w->texture[8].ptr = mlx_xpm_file_to_image(w->mlx,
 		"textures/wood.xpm", &w->texture->width, &w->texture->height);
 	w->texture[8].data = mlx_get_data_addr(w->texture[8].ptr,
 	&w->texture[8].bpp, &w->texture[8].sizeline, &w->texture[8].endian);
-	w->texture[9].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/pillar.xpm", &w->texture->width, &w->texture->height);
-	w->texture[9].data = mlx_get_data_addr(w->texture[9].ptr,
-	&w->texture[9].bpp, &w->texture[9].sizeline, &w->texture[9].endian);
 }
 
 void	load_textures(t_env *w)
 {
-	w->texture = (t_textur*)ft_memalloc(sizeof(t_textur) * 10);
+	w->texture = (t_textur*)ft_memalloc(sizeof(t_textur) * 9);
 	w->texture[0].ptr = mlx_xpm_file_to_image(w->mlx,
 		"textures/redstone.xpm", &w->texture->width, &w->texture->height);
 	w->texture[0].data = mlx_get_data_addr(w->texture[0].ptr,
@@ -57,11 +48,11 @@ void	load_textures(t_env *w)
 	w->texture[2].data = mlx_get_data_addr(w->texture[2].ptr,
 	&w->texture[2].bpp, &w->texture[2].sizeline, &w->texture[2].endian);
 	w->texture[3].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/eagle.xpm", &w->texture->width, &w->texture->height);
+		"textures/flag.xpm", &w->texture->width, &w->texture->height);
 	w->texture[3].data = mlx_get_data_addr(w->texture[3].ptr,
 	&w->texture[3].bpp, &w->texture[3].sizeline, &w->texture[3].endian);
 	w->texture[4].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/mossy.xpm", &w->texture->width, &w->texture->height);
+		"textures/eagle.xpm", &w->texture->width, &w->texture->height);
 	w->texture[4].data = mlx_get_data_addr(w->texture[4].ptr,
 	&w->texture[4].bpp, &w->texture[4].sizeline, &w->texture[4].endian);
 	load_textures2(w);
@@ -88,5 +79,5 @@ void	get_texture(t_env *w)
 	else if (w->map[w->rayc.map_x][w->rayc.map_y] == 9)
 		w->rayc.texture_nb = 8;
 	else
-		w->rayc.texture_nb = 9;
+		w->rayc.texture_nb = 0;
 }

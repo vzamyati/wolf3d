@@ -124,6 +124,10 @@ typedef struct 			s_ray
 	int 				d;
 }						t_ray;
 
+typedef struct 			s_weapon
+{
+	void				*shotgun;
+}						t_weapon;
 
 typedef struct			s_env
 {
@@ -145,35 +149,75 @@ typedef struct			s_env
 	t_textur			*texture;
 	t_ray				rayc;
 	t_flag				flag;
+	t_weapon			weapon;
 }						t_env;
 
-int			f_exit(t_env *wolf);
-int			key_press(int key, t_env *wolf);
-void		delete_env(t_env **wolf);
-t_env		*init_env(void);
-void		init_img(t_env *wolf);
+/*
+* adds.c
+*/
+void		cross(t_env *w);
+void		show_info(t_env *w);
+void		change_music(int key, t_env *w);
+void		fps(t_env *w);
+/*
+* clean.c
+*/
+void		delete_env(t_env **w);
+int			f_exit(t_env *w);
 void		ft_error(char *reason);
-void 		open_file(char *line, t_env *wolf);
-void		init_player(t_env *wolf);
-void		load_textures(t_env *wolf);
-void		raycasting(t_env *wolf);
-void		get_texture(t_env *wolf);
-void		lets_draw_walls(t_env *wolf, int x, int start, int end);
-void		draw(t_env *wolf);
-int 		expose(t_env *wolf);
-int			game_loop(t_env *wolf);
-int			key_release(int key, t_env *wolf);
-void		draw(t_env *wolf);
-void		key_up(t_env *wolf);
-void		key_down(t_env *wolf);
-void		key_left(t_env *wolf);
-void		key_right(t_env *wolf);
-void		cross(t_env *wolf);
-void		show_info(t_env *wolf);
-void		place_player(t_env *wolf);
-void		change_music(int key, t_env *wolf);
-void		fps(t_env *wolf);
-int			get_position(t_env *wolf, int x, int y);
-void		lets_draw_floor(t_env *w);
+/*
+* draw.c
+*/
+void		lets_draw_walls(t_env *w, int x, int start, int end);
+void		draw(t_env *w);
+/*
+* events.c
+*/
+int		game_loop(t_env *w);
+int		key_press(int key, t_env *w);
+int		key_release(int key, t_env *w);
+/*
+* floor_ceil.c
+*/
+void			lets_draw_floor(t_env *w);
+void			lets_draw_floor2(t_env *w);
+void	put_ceil(t_env *w);
+void	put_floor(t_env *w);
+/*
+* main.c
+*/
+t_env		*init_env(void);
+void		next_step(char *av, t_env *w);
+/*
+* map.c
+*/
+void			open_file(char *av, t_env *w);
+/*
+* moves.c
+*/
+void		key_up(t_env *w);
+void		key_down(t_env *w);
+void		key_left(t_env *w);
+void		key_right(t_env *w);
+/*
+* player.c
+*/
+void		init_player(t_env *w);
+void		place_player(t_env *w);
+int			get_position(t_env *w, int x, int y);
+/*
+* raycasting.c
+*/
+void		raycasting(t_env *w);
+void		ray_step(t_env *w);
+void		ray_dist(t_env *w);
+void		ray_draw(t_env *w);
+void		set_texture(t_env *w);
+/*
+* texture.c
+*/
+void	get_texture(t_env *w);
+void	load_textures(t_env *w);
+void	load_textures2(t_env *w);
 
 #endif

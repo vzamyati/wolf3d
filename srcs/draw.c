@@ -12,7 +12,6 @@
 
 #include "w3d.h"
 
-
 void		lets_draw_walls(t_env *w, int x, int start, int end)
 {
 	w->rayc.y = start;
@@ -33,68 +32,18 @@ void		lets_draw_walls(t_env *w, int x, int start, int end)
 	}
 }
 
-void	pixel_put(t_env *w, int x, int y, int color)
+void		weapon(t_env *w)
 {
-	int				i;
+	int a;
+	int b;
+	int x;
+	int y;
 
-	i = (x * 4) + (y * w->sizeline);
-	w->data[i++] = color;
-	w->data[i++] = color >> 8;
-	w->data[i] = color >> 16;
-}
-
-void			lets_draw_floor2(t_env *w)
-{
-	double		current_dist;
-	double 		weight;
-	double		curr_floorx;
-	double		curr_floory;
-
-	w->rayc.dist_wall = w->rayc.pwd;
-	w->rayc.dist_player = 0.0;
-	if (w->rayc.end < 0)
-		w->rayc.end = W_HEIGHT;
-	w->rayc.y = w->rayc.end + 1;
-	while (w->rayc.y < W_HEIGHT)
-	{
-		current_dist = W_HEIGHT / (2.0 * w->rayc.y - W_HEIGHT);
-		weight = (current_dist - w->rayc.dist_player) / (w->rayc.dist_wall - w->rayc.dist_player);
-        curr_floorx = weight * w->rayc.floorxwall + (1.0 - weight) * w->rayc.pos.x;
-       	curr_floory = weight * w->rayc.floorywall + (1.0 - weight) * w->rayc.pos.y;
-        w->rayc.floor_texx = (int)(curr_floorx * TEXTURE_WIDTH) % TEXTURE_WIDTH;
-        w->rayc.floor_texy = (int)(curr_floory * TEXTURE_HEIGHT) % TEXTURE_HEIGHT;
-        pixel_put(w, w->rayc.x, w->rayc.y, (w->texture[7].data[(4 * (TEXTURE_WIDTH * w->rayc.floor_texy +
-			w->rayc.floor_texx))] >> 1) & 8355711);
-        pixel_put(w, w->rayc.x, W_HEIGHT - w->rayc.y, w->texture[7].data[(4 * (TEXTURE_WIDTH * w->rayc.floor_texy +
-			w->rayc.floor_texx))]);
-        w->rayc.y++;
-	}
-}
-
-
-void			lets_draw_floor(t_env *w)
-{
-	if (w->rayc.hit_side == 0 && w->rayc.dirt.x > 0)
-	{
-		w->rayc.floorxwall = w->rayc.map_x;
-		w->rayc.floorywall = w->rayc.map_y + w->rayc.wall_x;
-	}
-	else if (w->rayc.hit_side == 0 && w->rayc.dirt.x < 0)
-	{
-		w->rayc.floorxwall = w->rayc.map_x + 1.0;
-		w->rayc.floorywall = w->rayc.map_y + w->rayc.wall_x;
-	}
-	else if (w->rayc.hit_side == 1 && w->rayc.dirt.y > 0)
-	{
-		w->rayc.floorxwall = w->rayc.map_x + w->rayc.wall_x;
-		w->rayc.floorywall = w->rayc.map_y;
-	}
-	else
-	{
-		w->rayc.floorxwall = w->rayc.map_x + w->rayc.wall_x;
-		w->rayc.floorywall= w->rayc.map_y + 1.0;
-	}
-	lets_draw_floor2(w);
+	w->weapon.shotgun = mlx_xpm_file_to_image(w->mlx,
+		"textures/makarov.xpm", &a, &b);
+	x = (W_WIDTH / 2) - (a / 2);
+	y = W_HEIGHT - b;
+	mlx_put_image_to_window(w->mlx, w->win, w->weapon.shotgun, W_WIDTH / 2, W_HEIGHT / 2);
 }
 
 void		draw(t_env *w)
@@ -105,4 +54,5 @@ void		draw(t_env *w)
 		show_info(w);
 	cross(w);
 	fps(w);
+	weapon(w);
 }
