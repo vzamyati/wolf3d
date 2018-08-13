@@ -12,7 +12,7 @@
 
 #include "w3d.h"
 
-void		lets_draw_walls(t_env *w, int x, int start, int end)
+void		lets_draw_walls(t_env *w, int x, int start, int end, int texture_nb)
 {
 	w->rayc.y = start;
 	while (w->rayc.y <= end && w->rayc.y < W_WIDTH)
@@ -21,15 +21,34 @@ void		lets_draw_walls(t_env *w, int x, int start, int end)
 		w->rayc.texture_y = ((w->rayc.d * TEXTURE_HEIGHT /
 			w->rayc.height) / 256);
 		w->data[4 * (W_WIDTH * w->rayc.y + x)] = w->texture
-		[w->rayc.texture_nb].data[(4 * (TEXTURE_WIDTH *
+		[texture_nb].data[(4 * (TEXTURE_WIDTH *
 			w->rayc.texture_y + w->rayc.texture_x))];
 		w->data[4 * (W_WIDTH * w->rayc.y + x) + 1] = w->texture
-		[w->rayc.texture_nb].data[(4 * (TEXTURE_WIDTH * w->rayc.texture_y +
+		[texture_nb].data[(4 * (TEXTURE_WIDTH * w->rayc.texture_y +
 			w->rayc.texture_x)) + 1];
 		w->data[4 * (W_WIDTH * w->rayc.y + x) + 2] = w->texture
-		[w->rayc.texture_nb].data[(4 * (TEXTURE_WIDTH * w->rayc.texture_y +
+		[texture_nb].data[(4 * (TEXTURE_WIDTH * w->rayc.texture_y +
 			w->rayc.texture_x)) + 2];
 		w->rayc.y++;
+	}
+}
+
+void		lets_draw_compas(t_env *w, int x, int start, int end)
+{
+	w->rayc.y = start;
+	while (w->rayc.y <= end && w->rayc.y < W_WIDTH)
+	{
+		if (w->rayc.step_x < 0)
+			lets_draw_walls(w, x, start, end, 0);
+		else
+			lets_draw_walls(w, x, start, end, 1);
+		if (w->rayc.hit_side == 1)
+		{
+			if (w->rayc.step_y < 0)
+				lets_draw_walls(w, x, start, end, 2);
+			else
+				lets_draw_walls(w, x, start, end, 3);
+		}
 	}
 }
 

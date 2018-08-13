@@ -32,6 +32,11 @@ int			f_exit(t_env *w)
 	return (0);
 }
 
+void		*exit2(t_env *w)
+{
+	f_exit(w);
+}
+
 void		ft_error(char *reason)
 {
 	ft_putstr_fd(reason, 2);

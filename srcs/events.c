@@ -43,6 +43,13 @@ int		key_press2(int key, t_env *w)
 		else
 			w->flag.weapon = 0;
 	}
+	if (key == TEXTURE)
+	{
+		if (w->flag.texture == 0)
+			w->flag.texture = 1;
+		else
+			w->flag.texture = 0;
+	}
 	return (0);
 }
 

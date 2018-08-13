@@ -17,19 +17,19 @@ void		key_up(t_env *w)
 	if (w->player.flag.shift)
 	{
 		if (w->map[(int)(w->player.pos.x + w->player.dirt.x *
-		w->player.s_shift)][(int)w->player.pos.y] == 0)
+		w->player.s_shift + 0.2 * w->player.dirt.x)][(int)w->player.pos.y] == 0)
 			w->player.pos.x += w->player.dirt.x * w->player.s_shift;
 		if (w->map[(int)w->player.pos.x][(int)(w->player.pos.y +
-		w->player.dirt.y * w->player.s_shift)] == 0)
+		w->player.dirt.y * w->player.s_shift + 0.2 * w->player.dirt.y)] == 0)
 			w->player.pos.y += w->player.dirt.y * w->player.s_shift;
 	}
 	else
 	{
 		if (w->map[(int)(w->player.pos.x + w->player.dirt.x *
-		w->player.s_move)][(int)w->player.pos.y] == 0)
+		w->player.s_move + 0.2 * w->player.dirt.x)][(int)w->player.pos.y] == 0)
 			w->player.pos.x += w->player.dirt.x * w->player.s_move;
 		if (w->map[(int)w->player.pos.x][(int)(w->player.pos.y +
-		w->player.dirt.y * w->player.s_move)] == 0)
+		w->player.dirt.y * w->player.s_move + 0.2 * w->player.dirt.y)] == 0)
 			w->player.pos.y += w->player.dirt.y * w->player.s_move;
 	}
 }
@@ -37,10 +37,10 @@ void		key_up(t_env *w)
 void		key_down(t_env *w)
 {
 	if (w->map[(int)(w->player.pos.x - w->player.dirt.x *
-	w->player.s_move)][(int)w->player.pos.y] == 0)
+	w->player.s_move - 0.3 * w->player.dirt.x)][(int)w->player.pos.y] == 0)
 		w->player.pos.x -= w->player.dirt.x * w->player.s_move;
 	if (w->map[(int)w->player.pos.x][(int)(w->player.pos.y -
-	w->player.dirt.y * w->player.s_move)] == 0)
+	w->player.dirt.y * w->player.s_move - 0.3 * w->player.dirt.y)] == 0)
 		w->player.pos.y -= w->player.dirt.y * w->player.s_move;
 }
 

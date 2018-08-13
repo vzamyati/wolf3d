@@ -29,7 +29,10 @@ void		set_texture(t_env *w)
 	w->player.frametime = (w->player.time - w->player.oldtime) / 1000.0;
 	w->player.s_move = w->player.frametime * 5.0;
 	w->player.s_rot = w->player.frametime * 1.5;
-	lets_draw_walls(w, w->rayc.x, w->rayc.start, w->rayc.end);
+	if (w->flag.texture == 0)
+		lets_draw_walls(w, w->rayc.x, w->rayc.start, w->rayc.end, w->rayc.texture_nb);
+	else
+		lets_draw_compas(w, w->rayc.x, w->rayc.start, w->rayc.end);
 }
 
 void		ray_draw(t_env *w)

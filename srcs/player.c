@@ -54,6 +54,7 @@ void		init_player(t_env *w)
 	w->player.flag.left = 0;
 	w->player.flag.right = 0;
 	w->player.flag.shift = 0;
+	w->flag.texture = 0;
 	w->player.time = 0;
 	w->player.oldtime = 0;
 	w->flag.info = 1;

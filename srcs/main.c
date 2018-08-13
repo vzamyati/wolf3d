@@ -6,7 +6,7 @@
 /*   By: vzamyati <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/03 14:09:23 by vzamyati          #+#    #+#             */
-/*   Updated: 2018/07/04 15:08:43 by vzamyati         ###   ########.fr       */
+/*   Updated: 2018/08/13 13:35:54 by vzamyati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void		next_step(char *av, t_env *w)
 	mlx_hook(w->win, 3, 0, key_release, w);
 	mlx_hook(w->win, 17, 1L << 17, f_exit, w);
 	mlx_loop_hook(w->mlx, game_loop, w);
-	system("leaks wolf3d");
+	signal(SIGINT, exit(w));
 	mlx_loop(w->mlx);
 }
 

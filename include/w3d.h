@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <time.h>
+# include <signal.h>
 
 # define W_HEIGHT		900
 # define W_WIDTH 		900
@@ -47,6 +48,7 @@
 # define RESTART		15
 # define INFO 			34
 # define WEAPON 		14
+# define TEXTURE		49
 
 typedef struct	s_var
 {
@@ -64,6 +66,7 @@ typedef struct	s_flag
 	int			right;
 	int			shift;
 	int			weapon;
+	int			texture;
 }				t_flag;
 
 typedef struct	s_textur
@@ -169,7 +172,8 @@ void			ft_error(char *reason);
 /*
 ** draw.c
 */
-void			lets_draw_walls(t_env *w, int x, int start, int end);
+void			lets_draw_walls(t_env *w, int x, int start, int end, int texture_nb);
+void			lets_draw_compas(t_env *w, int x, int start, int end);
 void			draw(t_env *w);
 /*
 ** events.c
