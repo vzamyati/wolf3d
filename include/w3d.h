@@ -10,13 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef		WOLF3D_H
-# define	WOLF3D_H
+#ifndef W3D_H
+# define W3D_H
 
 # include "../libft/include/libft.h"
-# include "../../minilibx_macos/mlx.h"
+# include "../minilibx_macos/mlx.h"
 # include <math.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -47,177 +46,179 @@
 # define OFF			31
 # define RESTART		15
 # define INFO 			34
+# define WEAPON 		14
 
-typedef struct 			s_var
+typedef struct	s_var
 {
-	double				x;
-	double				y;
-}						t_var;
+	double		x;
+	double		y;
+}				t_var;
 
-typedef struct 			s_flag
+typedef struct	s_flag
 {
-	int 				info;
-	int 				music;
-	int 				up;
-	int 				down;
-	int 				left;
-	int 				right;
-	int 				shift;
-}						t_flag;
+	int			info;
+	int			music;
+	int			up;
+	int			down;
+	int			left;
+	int			right;
+	int			shift;
+	int			weapon;
+}				t_flag;
 
-typedef struct 			s_textur
+typedef struct	s_textur
 {
-	void				*ptr;
-	char				*data;
-	int 				bpp;
-	int 				sizeline;
-	int 				endian;
-	int 				width;
-	int 				height;
-}						t_textur;
+	void		*ptr;
+	char		*data;
+	int			bpp;
+	int			sizeline;
+	int			endian;
+	int			width;
+	int			height;
+}				t_textur;
 
-typedef struct 			s_player
+typedef struct	s_player
 {
-	t_var 				pos;
-	t_var				dirt;
-	t_var				plane;
-	t_flag				flag;
-	float				s_move;
-	float				s_rot;
-	float				s_shift;
-	double				time;
-	double				oldtime;
-	double				frametime;
-}						t_player;
+	t_var		pos;
+	t_var		dirt;
+	t_var		plane;
+	t_flag		flag;
+	float		s_move;
+	float		s_rot;
+	float		s_shift;
+	double		time;
+	double		oldtime;
+	double		frametime;
+}				t_player;
 
-typedef struct 			s_ray
+typedef struct	s_ray
 {
-	t_var				pos;
-	t_var				dirt;
-	t_var				delta;
-	t_var				side;
-	t_var				map;
-	int 				map_x;
-	int 				map_y;
-	int 				step_x;
-	int 				step_y;
-	float				camera;
-	float				pwd;
-	int					hit;
-	int					hit_side;
-	int					height;
-	int					start;
-	int					end;
-	int					texture_nb;
-	int					t_num;
-	float				wall_x;
-	int					texture_x; 
-	int					texture_y;
-	double				floorxwall;
-	double				floorywall;
-	double				dist_wall;
-	double				dist_player;
-	int 				floor_texx;
-	int 				floor_texy;
-	int 				x;
-	int 				y;
-	int 				d;
-}						t_ray;
+	t_var		pos;
+	t_var		dirt;
+	t_var		delta;
+	t_var		side;
+	t_var		map;
+	int			map_x;
+	int			map_y;
+	int			step_x;
+	int			step_y;
+	float		camera;
+	float		pwd;
+	int			hit;
+	int			hit_side;
+	int			height;
+	int			start;
+	int			end;
+	int			texture_nb;
+	int			t_num;
+	float		wall_x;
+	int			texture_x;
+	int			texture_y;
+	double		floorxwall;
+	double		floorywall;
+	double		dist_wall;
+	double		dist_player;
+	int			floor_texx;
+	int			floor_texy;
+	int			x;
+	int			y;
+	int			d;
+}				t_ray;
 
-typedef struct 			s_weapon
+typedef struct	s_weapon
 {
-	void				*shotgun;
-}						t_weapon;
+	void		*shotgun;
+}				t_weapon;
 
-typedef struct			s_env
+typedef struct	s_env
 {
-	void				*mlx;
-	void				*win;
-	void				*img;
-	char				*data;
-	int 				bpp;
-	int 				sizeline;
-	int 				endian;
-	int 				**map;
-	int 				map_height;
-	int 				map_width;
-	int 				ceil;
-	int 				floor;
-	int 				fps;
-	char				*speed;
-	t_player			player;
-	t_textur			*texture;
-	t_ray				rayc;
-	t_flag				flag;
-	t_weapon			weapon;
-}						t_env;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*data;
+	int			bpp;
+	int			sizeline;
+	int			endian;
+	int			**map;
+	int			map_height;
+	int			map_width;
+	int			ceil;
+	int			floor;
+	int			fps;
+	char		*speed;
+	t_player	player;
+	t_textur	*texture;
+	t_ray		rayc;
+	t_flag		flag;
+	t_weapon	weapon;
+}				t_env;
 
 /*
-* adds.c
+** adds.c
 */
-void		cross(t_env *w);
-void		show_info(t_env *w);
-void		change_music(int key, t_env *w);
-void		fps(t_env *w);
+void			cross(t_env *w);
+void			show_info(t_env *w);
+void			change_music(int key, t_env *w);
+void			fps(t_env *w);
 /*
-* clean.c
+** clean.c
 */
-void		delete_env(t_env **w);
-int			f_exit(t_env *w);
-void		ft_error(char *reason);
+void			delete_env(t_env **w);
+int				f_exit(t_env *w);
+void			ft_error(char *reason);
 /*
-* draw.c
+** draw.c
 */
-void		lets_draw_walls(t_env *w, int x, int start, int end);
-void		draw(t_env *w);
+void			lets_draw_walls(t_env *w, int x, int start, int end);
+void			draw(t_env *w);
 /*
-* events.c
+** events.c
 */
-int		game_loop(t_env *w);
-int		key_press(int key, t_env *w);
-int		key_release(int key, t_env *w);
+int				game_loop(t_env *w);
+int				key_press(int key, t_env *w);
+int				key_release(int key, t_env *w);
 /*
-* floor_ceil.c
+** floor_ceil.c
 */
 void			lets_draw_floor(t_env *w);
 void			lets_draw_floor2(t_env *w);
-void	put_ceil(t_env *w);
-void	put_floor(t_env *w);
+void			put_ceil(t_env *w);
+void			put_floor(t_env *w);
 /*
-* main.c
+** main.c
 */
-t_env		*init_env(void);
-void		next_step(char *av, t_env *w);
+t_env			*init_env(void);
+void			next_step(char *av, t_env *w);
 /*
-* map.c
+** map.c
 */
 void			open_file(char *av, t_env *w);
 /*
-* moves.c
+** moves.c
 */
-void		key_up(t_env *w);
-void		key_down(t_env *w);
-void		key_left(t_env *w);
-void		key_right(t_env *w);
+void			key_up(t_env *w);
+void			key_down(t_env *w);
+void			key_left(t_env *w);
+void			key_right(t_env *w);
 /*
-* player.c
+** player.c
 */
-void		init_player(t_env *w);
-void		place_player(t_env *w);
-int			get_position(t_env *w, int x, int y);
+void			init_player(t_env *w);
+void			place_player(t_env *w);
+int				get_position(t_env *w, int x, int y);
 /*
-* raycasting.c
+** raycasting.c
 */
-void		raycasting(t_env *w);
-void		ray_step(t_env *w);
-void		ray_dist(t_env *w);
-void		ray_draw(t_env *w);
-void		set_texture(t_env *w);
+void			raycasting(t_env *w);
+void			ray_step(t_env *w);
+void			ray_dist(t_env *w);
+void			ray_draw(t_env *w);
+void			set_texture(t_env *w);
 /*
-* texture.c
+** texture.c
 */
-void	get_texture(t_env *w);
-void	load_textures(t_env *w);
-void	load_textures2(t_env *w);
+void			get_texture(t_env *w);
+void			load_textures(t_env *w);
+void			load_textures2(t_env *w);
 
 #endif

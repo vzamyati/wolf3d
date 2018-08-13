@@ -23,6 +23,29 @@ int		game_loop(t_env *w)
 	return (0);
 }
 
+int		key_press2(int key, t_env *w)
+{
+	if (key == NEXT || key == PREV || key == OFF)
+		change_music(key, w);
+	if (key == RESTART)
+		place_player(w);
+	if (key == INFO)
+	{
+		if (w->flag.info == 0)
+			w->flag.info = 1;
+		else
+			w->flag.info = 0;
+	}
+	if (key == WEAPON)
+	{
+		if (w->flag.weapon == 0)
+			w->flag.weapon = 1;
+		else
+			w->flag.weapon = 0;
+	}
+	return (0);
+}
+
 int		key_press(int key, t_env *w)
 {
 	if (key == ESC || key == Q)
@@ -37,17 +60,7 @@ int		key_press(int key, t_env *w)
 		w->player.flag.right = 1;
 	if (key == SHIFT1 || key == SHIFT2)
 		w->player.flag.shift = 1;
-	if (key == NEXT || key == PREV || key == OFF)
-		change_music(key, w);
-	if (key == RESTART)
-		place_player(w);
-	if (key == INFO)
-	{
-		if (w->flag.info == 0)
-			w->flag.info = 1;
-		else
-			w->flag.info = 0;
-	}
+	key_press2(key, w);
 	return (0);
 }
 

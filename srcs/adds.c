@@ -55,6 +55,8 @@ void		show_info(t_env *w)
 	mlx_string_put(w->mlx, w->win, 10, 110, 0xFFFFFF,
 		"RESTART = R");
 	mlx_string_put(w->mlx, w->win, 10, 130, 0xFFFFFF,
+		"SHOW WEAPON = E");
+	mlx_string_put(w->mlx, w->win, 10, 150, 0xFF0000,
 		"QUIT = ESC || Q");
 }
 

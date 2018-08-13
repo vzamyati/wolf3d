@@ -52,7 +52,8 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 norm:
 	@ echo "\033[35;1mwait for norminette\033[0m"
-	@norminette ./libft/
+	@norminette ./libft/srcs
+	@norminette ./libft/include
 	@norminette ./include
 	@norminette ./srcs
 
