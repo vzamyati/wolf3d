@@ -28,10 +28,8 @@ cd wolf3d
 make
 ./wolf3d ./maps/[map]
 ```
-<img src="https://github.com/vzamyati/wolf3d/blob/master/screenshots/01.png?raw=true" />
-<img src="https://github.com/vzamyati/wolf3d/blob/master/screenshots/02.png?raw=true"/>
-<img src="https://github.com/vzamyati/wolf3d/blob/master/screenshots/03.png?raw=true"/>
-<img src="https://github.com/vzamyati/wolf3d/blob/master/screenshots/04.png?raw=true"/>
+<img src="https://github.com/vzamyati/wolf3d/blob/master/screenshots/01.png?raw=true" width="400"/> <img src="https://github.com/vzamyati/wolf3d/blob/master/screenshots/02.png?raw=true" width="400"/>
+<img src="https://github.com/vzamyati/wolf3d/blob/master/screenshots/03.png?raw=true" width="400"/> <img src="https://github.com/vzamyati/wolf3d/blob/master/screenshots/04.png?raw=true" width="400"/>
  
 ## Author
 
