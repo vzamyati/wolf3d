@@ -25,10 +25,6 @@ int		game_loop(t_env *w)
 
 int		key_press2(int key, t_env *w)
 {
-	if (key == NEXT || key == PREV || key == OFF)
-		change_music(key, w);
-	if (key == RESTART)
-		place_player(w);
 	if (key == INFO)
 	{
 		if (w->flag.info == 0)
@@ -67,6 +63,10 @@ int		key_press(int key, t_env *w)
 		w->player.flag.right = 1;
 	if (key == SHIFT1 || key == SHIFT2)
 		w->player.flag.shift = 1;
+	if (key == NEXT || key == PREV || key == OFF)
+		change_music(key, w);
+	if (key == RESTART)
+		place_player(w);
 	key_press2(key, w);
 	return (0);
 }

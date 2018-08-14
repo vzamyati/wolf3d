@@ -12,50 +12,45 @@
 
 #include "w3d.h"
 
-void	load_textures2(t_env *w)
+int		textures_load(t_env *w, int nbr, char *path)
 {
-	w->texture[5].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/purplestone.xpm", &w->texture->width, &w->texture->height);
-	w->texture[5].data = mlx_get_data_addr(w->texture[5].ptr,
-	&w->texture[5].bpp, &w->texture[5].sizeline, &w->texture[5].endian);
-	w->texture[6].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/mossy.xpm", &w->texture->width, &w->texture->height);
-	w->texture[6].data = mlx_get_data_addr(w->texture[6].ptr,
-	&w->texture[6].bpp, &w->texture[6].sizeline, &w->texture[6].endian);
-	w->texture[7].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/colorstone.xpm", &w->texture->width, &w->texture->height);
-	w->texture[7].data = mlx_get_data_addr(w->texture[7].ptr,
-	&w->texture[7].bpp, &w->texture[7].sizeline, &w->texture[7].endian);
-	w->texture[8].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/wood.xpm", &w->texture->width, &w->texture->height);
-	w->texture[8].data = mlx_get_data_addr(w->texture[8].ptr,
-	&w->texture[8].bpp, &w->texture[8].sizeline, &w->texture[8].endian);
+	w->texture[nbr].ptr = mlx_xpm_file_to_image(w->mlx,
+		path, &w->texture[nbr].width, &w->texture[nbr].height);
+	if (!w->texture[nbr].ptr)
+		return (0);
+	w->texture[nbr].data = mlx_get_data_addr(w->texture[nbr].ptr,
+		&w->texture[nbr].bpp, &w->texture[nbr].sizeline,
+		&w->texture[nbr].endian);
+	if (!w->texture[nbr].data)
+		return (0);
+	return (1);
 }
 
 void	load_textures(t_env *w)
 {
 	w->texture = (t_textur*)ft_memalloc(sizeof(t_textur) * 9);
-	w->texture[0].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/redstone.xpm", &w->texture->width, &w->texture->height);
-	w->texture[0].data = mlx_get_data_addr(w->texture[0].ptr,
-	&w->texture[0].bpp, &w->texture[0].sizeline, &w->texture[0].endian);
-	w->texture[1].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/greystone.xpm", &w->texture->width, &w->texture->height);
-	w->texture[1].data = mlx_get_data_addr(w->texture[1].ptr,
-	&w->texture[1].bpp, &w->texture[1].sizeline, &w->texture[1].endian);
-	w->texture[2].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/bulestone.xpm", &w->texture->width, &w->texture->height);
-	w->texture[2].data = mlx_get_data_addr(w->texture[2].ptr,
-	&w->texture[2].bpp, &w->texture[2].sizeline, &w->texture[2].endian);
-	w->texture[3].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/flag.xpm", &w->texture->width, &w->texture->height);
-	w->texture[3].data = mlx_get_data_addr(w->texture[3].ptr,
-	&w->texture[3].bpp, &w->texture[3].sizeline, &w->texture[3].endian);
-	w->texture[4].ptr = mlx_xpm_file_to_image(w->mlx,
-		"textures/eagle.xpm", &w->texture->width, &w->texture->height);
-	w->texture[4].data = mlx_get_data_addr(w->texture[4].ptr,
-	&w->texture[4].bpp, &w->texture[4].sizeline, &w->texture[4].endian);
-	load_textures2(w);
+	if (!(textures_load(w, 0, "textures/redstone.xpm")))
+		ft_error("Have problems with textures' files.\n");
+	if (!(textures_load(w, 1, "textures/greystone.xpm")))
+		ft_error("Have problems with textures' files.\n");
+	if (!(textures_load(w, 2, "textures/bulestone.xpm")))
+		ft_error("Have problems with textures' files.\n");
+	if (!(textures_load(w, 3, "textures/flag.xpm")))
+		ft_error("Have problems with textures' files.\n");
+	if (!(textures_load(w, 4, "textures/eagle.xpm")))
+		ft_error("Have problems with textures' files.\n");
+	if (!(textures_load(w, 5, "textures/purplestone.xpm")))
+		ft_error("Have problems with textures' files.\n");
+	if (!(textures_load(w, 6, "textures/mossy.xpm")))
+		ft_error("Have problems with textures' files.\n");
+	if (!(textures_load(w, 7, "textures/colorstone.xpm")))
+		ft_error("Have problems with textures' files.\n");
+	if (!(textures_load(w, 8, "textures/wood.xpm")))
+		ft_error("Have problems with textures' files.\n");
+	w->weapon.shotgun = mlx_xpm_file_to_image(w->mlx,
+		"textures/wpn.xpm", &w->weapon.width, &w->weapon.height);
+	if (!w->weapon.shotgun)
+		ft_error("Have problems with textures' files.\n");
 }
 
 void	get_texture(t_env *w)

@@ -12,10 +12,10 @@
 
 #include "w3d.h"
 
-void		lets_draw_walls(t_env *w, int x, int start, int end, int texture_nb)
+void		lets_draw_walls(t_env *w, int x, int texture_nb)
 {
-	w->rayc.y = start;
-	while (w->rayc.y <= end && w->rayc.y < W_WIDTH)
+	w->rayc.y = w->rayc.start;
+	while (w->rayc.y <= w->rayc.end && w->rayc.y < W_WIDTH)
 	{
 		w->rayc.d = w->rayc.y * 256 - W_HEIGHT * 128 + w->rayc.height * 128;
 		w->rayc.texture_y = ((w->rayc.d * TEXTURE_HEIGHT /
@@ -33,36 +33,32 @@ void		lets_draw_walls(t_env *w, int x, int start, int end, int texture_nb)
 	}
 }
 
-void		lets_draw_compas(t_env *w, int x, int start, int end)
+void		lets_draw_compas(t_env *w, int x)
 {
-	w->rayc.y = start;
-	while (w->rayc.y <= end && w->rayc.y < W_WIDTH)
+	w->rayc.y = w->rayc.start;
+	while (w->rayc.y <= w->rayc.end && w->rayc.y < W_WIDTH)
 	{
 		if (w->rayc.step_x < 0)
-			lets_draw_walls(w, x, start, end, 0);
+			lets_draw_walls(w, x, 0);
 		else
-			lets_draw_walls(w, x, start, end, 1);
+			lets_draw_walls(w, x, 1);
 		if (w->rayc.hit_side == 1)
 		{
 			if (w->rayc.step_y < 0)
-				lets_draw_walls(w, x, start, end, 2);
+				lets_draw_walls(w, x, 2);
 			else
-				lets_draw_walls(w, x, start, end, 3);
+				lets_draw_walls(w, x, 3);
 		}
 	}
 }
 
 void		weapon(t_env *w)
 {
-	int a;
-	int b;
 	int x;
 	int y;
 
-	w->weapon.shotgun = mlx_xpm_file_to_image(w->mlx,
-		"textures/wpn.xpm", &a, &b);
-	x = (W_WIDTH / 2) - (a / 2);
-	y = W_HEIGHT - b;
+	x = (W_WIDTH / 2) - (w->weapon.width / 2);
+	y = W_HEIGHT - w->weapon.height;
 	mlx_put_image_to_window(w->mlx, w->win, w->weapon.shotgun, x + 200,
 		(W_HEIGHT / 2) + 160);
 }

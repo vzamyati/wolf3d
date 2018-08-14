@@ -131,6 +131,8 @@ typedef struct	s_ray
 typedef struct	s_weapon
 {
 	void		*shotgun;
+	int			width;
+	int			height;
 }				t_weapon;
 
 typedef struct	s_env
@@ -172,8 +174,8 @@ void			ft_error(char *reason);
 /*
 ** draw.c
 */
-void			lets_draw_walls(t_env *w, int x, int start, int end, int texture_nb);
-void			lets_draw_compas(t_env *w, int x, int start, int end);
+void			lets_draw_walls(t_env *w, int x, int texture_nb);
+void			lets_draw_compas(t_env *w, int x);
 void			draw(t_env *w);
 /*
 ** events.c
@@ -188,11 +190,6 @@ void			lets_draw_floor(t_env *w);
 void			lets_draw_floor2(t_env *w);
 void			put_ceil(t_env *w);
 void			put_floor(t_env *w);
-/*
-** main.c
-*/
-t_env			*init_env(void);
-void			next_step(char *av, t_env *w);
 /*
 ** map.c
 */

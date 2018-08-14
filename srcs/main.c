@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "w3d.h"
+#include "stdio.h"
 
-t_env		*init_env(void)
+static t_env		*init_env(void)
 {
 	t_env	*w;
 
@@ -30,7 +31,14 @@ t_env		*init_env(void)
 	return (w);
 }
 
-void		next_step(char *av, t_env *w)
+static void			sighandler(int signum)
+{
+	(void)signum;
+	ft_error("\nSignal was interrupted by the user.\n");
+	exit(1);
+}
+
+static void			next_step(char *av, t_env *w)
 {
 	open_file(av, w);
 	init_player(w);
@@ -38,11 +46,11 @@ void		next_step(char *av, t_env *w)
 	mlx_hook(w->win, 3, 0, key_release, w);
 	mlx_hook(w->win, 17, 1L << 17, f_exit, w);
 	mlx_loop_hook(w->mlx, game_loop, w);
-	signal(SIGINT, exit(w));
+	signal(SIGINT, sighandler);
 	mlx_loop(w->mlx);
 }
 
-int			main(int ac, char **av)
+int					main(int ac, char **av)
 {
 	t_env	*w;
 
