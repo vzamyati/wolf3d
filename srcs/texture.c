@@ -26,6 +26,20 @@ int		textures_load(t_env *w, int nbr, char *path)
 	return (1);
 }
 
+void	load_weapon(t_env *w)
+{
+	w->weapon.shots = (t_textur*)ft_memalloc(sizeof(t_textur) * 2);
+	w->weapon.shotgun = mlx_xpm_file_to_image(w->mlx,
+	"textures/0.xpm", &w->weapon.width, &w->weapon.height);
+	if (!w->weapon.shotgun)
+		ft_error("Have problems with textures' files.\n");
+	w->weapon.shots[0].ptr = mlx_xpm_file_to_image(w->mlx,
+	"textures/1.xpm", &w->weapon.shots[0].width,
+	&w->weapon.shots[0].height);
+	if (!w->weapon.shots[0].ptr)
+		ft_error("Have problems with textures' files.\n");
+}
+
 void	load_textures(t_env *w)
 {
 	w->texture = (t_textur*)ft_memalloc(sizeof(t_textur) * 9);
@@ -47,10 +61,7 @@ void	load_textures(t_env *w)
 		ft_error("Have problems with textures' files.\n");
 	if (!(textures_load(w, 8, "textures/wood.xpm")))
 		ft_error("Have problems with textures' files.\n");
-	w->weapon.shotgun = mlx_xpm_file_to_image(w->mlx,
-		"textures/wpn.xpm", &w->weapon.width, &w->weapon.height);
-	if (!w->weapon.shotgun)
-		ft_error("Have problems with textures' files.\n");
+	load_weapon(w);
 }
 
 void	get_texture(t_env *w)

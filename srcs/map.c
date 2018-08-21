@@ -12,7 +12,7 @@
 
 #include "w3d.h"
 
-static void		validate_map1(char *buf, int i, t_env *w)
+void		validate_map1(char *buf, int i, t_env *w)
 {
 	int			len;
 
@@ -20,12 +20,12 @@ static void		validate_map1(char *buf, int i, t_env *w)
 	while (buf[i] && buf[i] != '\0')
 	{
 		if ((buf[i] < 48 || buf[i] > 57) && buf[i] != ' ' && buf[i] != '\n')
-			ft_error("Wrong element!\n");
+			ft_error("Wrong element! Try again\n");
 		len++;
 		if (buf[i] == '\n')
 		{
 			if (len - 1 != w->map_width)
-				ft_error("Wrong size!\n");
+				ft_error("Wrong size! Try again\n");
 			len = 0;
 		}
 		i++;
@@ -40,23 +40,50 @@ static void		validate_map1(char *buf, int i, t_env *w)
 	ft_strdel(&buf);
 }
 
-static void		validate_map2(t_env *w)
+int			check_position(t_env *w)
+{
+	int		i;
+	int		j;
+	int		v;
+
+	i = -1;
+	j = -1;
+	v = 0;
+	while (++i < w->map_height)
+	{
+		j = -1;
+		while (++j < w->map_width)
+			if ((v = get_position(w, j, i)) == 0)
+				break ;
+		if (!v)
+			return (1);
+	}
+	return (0);
+}
+
+void		validate_map2(t_env *w)
 {
 	int			i;
 
 	i = -1;
 	while (++i < w->map_width)
 		if (w->map[0][i] == 0 || w->map[w->map_height - 1][i] == 0)
-			ft_error("opened map1\n");
+			ft_error("The map is opened. Try again\n");
 	i = -1;
 	while (++i < w->map_height)
 		if (w->map[i][0] == 0 || w->map[i][w->map_width - 1] == 0)
-			ft_error("opened map2\n");
-	if (w->map[3][3] != 0)
-		ft_error("no place\n");
+			ft_error("The map is opened. Try again\n");
+	if (!check_position(w))
+		ft_error("Couldn't place the player. Try again\n");
 }
 
-static void		make_map(char *av, int i, t_env *w)
+void		check_value(t_env *w, int i, int j)
+{
+	if (w->map[i][j] > 2147483647)
+		w->map[i][j] = 1;
+}
+
+void		make_map(char *av, int i, t_env *w)
 {
 	char		*line;
 	int			j;
@@ -76,28 +103,11 @@ static void		make_map(char *av, int i, t_env *w)
 		{
 			if (line[k] == ' ')
 				k++;
-			w->map[i][j] = ft_atoi(&line[k]);
+			w->map[i][j] = ft_atol_base(&line[k], 10);
+			check_value(w, i, j);
 			k++;
 		}
 		i++;
 		ft_strdel(&line);
 	}
-}
-
-void			open_file(char *av, t_env *w)
-{
-	int			fd;
-	int			i;
-	char		*buf;
-
-	i = 0;
-	buf = ft_strnew(65536);
-	if ((fd = open(av, O_RDONLY)) < 0 || (read(fd, buf, 65536)) < 1)
-		ft_error("Couldn't open the file.\n");
-	w->map_width = ft_linelen(buf);
-	w->map_height = ft_countlines(buf);
-	validate_map1(buf, i, w);
-	close(fd);
-	make_map(av, i, w);
-	validate_map2(w);
 }

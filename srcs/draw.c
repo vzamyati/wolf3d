@@ -52,6 +52,16 @@ void		lets_draw_compas(t_env *w, int x)
 	}
 }
 
+void		shoot(t_env *w)
+{
+	int x;
+	int y;
+
+	x = (W_WIDTH / 2) - (w->weapon.width / 2);
+	y = W_HEIGHT - w->weapon.height;
+	mlx_put_image_to_window(w->mlx, w->win, w->weapon.shots[0].ptr, x + 100, y);
+}
+
 void		weapon(t_env *w)
 {
 	int x;
@@ -59,8 +69,7 @@ void		weapon(t_env *w)
 
 	x = (W_WIDTH / 2) - (w->weapon.width / 2);
 	y = W_HEIGHT - w->weapon.height;
-	mlx_put_image_to_window(w->mlx, w->win, w->weapon.shotgun, x + 200,
-		(W_HEIGHT / 2) + 160);
+	mlx_put_image_to_window(w->mlx, w->win, w->weapon.shotgun, x + 100, y);
 }
 
 void		draw(t_env *w)

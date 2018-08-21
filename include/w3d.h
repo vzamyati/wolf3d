@@ -133,6 +133,7 @@ typedef struct	s_weapon
 	void		*shotgun;
 	int			width;
 	int			height;
+	t_textur	*shots;
 }				t_weapon;
 
 typedef struct	s_env
@@ -177,10 +178,12 @@ void			ft_error(char *reason);
 void			lets_draw_walls(t_env *w, int x, int texture_nb);
 void			lets_draw_compas(t_env *w, int x);
 void			draw(t_env *w);
+void			shoot(t_env *w);
 /*
 ** events.c
 */
 int				game_loop(t_env *w);
+int				mouse_hook(int key, int x, int y, t_env *w);
 int				key_press(int key, t_env *w);
 int				key_release(int key, t_env *w);
 /*
@@ -193,7 +196,11 @@ void			put_floor(t_env *w);
 /*
 ** map.c
 */
-void			open_file(char *av, t_env *w);
+void			make_map(char *av, int i, t_env *w);
+void			check_value(t_env *w, int i, int j);
+void			validate_map2(t_env *w);
+int				check_position(t_env *w);
+void			validate_map1(char *buf, int i, t_env *w);
 /*
 ** moves.c
 */

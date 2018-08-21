@@ -58,7 +58,9 @@ void		show_info(t_env *w)
 		"CHANGE TEXTURE = SPACE");
 	mlx_string_put(w->mlx, w->win, 10, 150, 0xFFFFFF,
 		"SHOW WEAPON = E");
-	mlx_string_put(w->mlx, w->win, 10, 170, 0xFF0000,
+	mlx_string_put(w->mlx, w->win, 10, 170, 0xFFFFFF,
+		"SHOOT = LEFT MOUSE BUTTON");
+	mlx_string_put(w->mlx, w->win, 10, 190, 0xFF0000,
 		"QUIT = ESC || Q");
 }
 
@@ -87,4 +89,5 @@ void		fps(t_env *w)
 	mlx_string_put(w->mlx, w->win, W_WIDTH - 70, 0, 0xFFFF00, "FPS: ");
 	mlx_string_put(w->mlx, w->win, W_WIDTH - 30, 0, 0xFFFF00,
 		w->speed);
+	ft_strdel(&w->speed);
 }

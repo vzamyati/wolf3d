@@ -23,6 +23,15 @@ int		game_loop(t_env *w)
 	return (0);
 }
 
+int		mouse_hook(int key, int x, int y, t_env *w)
+{
+	(void)x;
+	(void)y;
+	if (key == 1 && w->flag.weapon == 1)
+		shoot(w);
+	return (0);
+}
+
 int		key_press2(int key, t_env *w)
 {
 	if (key == INFO)
