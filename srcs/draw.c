@@ -12,22 +12,22 @@
 
 #include "w3d.h"
 
-void		lets_draw_walls(t_env *w, int x, int texture_nb)
+void		lets_draw_walls(t_env *w, int x, int nbr)
 {
 	w->rayc.y = w->rayc.start;
 	while (w->rayc.y <= w->rayc.end && w->rayc.y < W_WIDTH)
 	{
 		w->rayc.d = w->rayc.y * 256 - W_HEIGHT * 128 + w->rayc.height * 128;
-		w->rayc.texture_y = ((w->rayc.d * TEXTURE_HEIGHT /
+		w->rayc.texture_y = ((w->rayc.d * w->texture[nbr].height /
 			w->rayc.height) / 256);
 		w->data[4 * (W_WIDTH * w->rayc.y + x)] = w->texture
-		[texture_nb].data[(4 * (TEXTURE_WIDTH *
+		[nbr].data[(4 * (w->texture[nbr].width *
 			w->rayc.texture_y + w->rayc.texture_x))];
 		w->data[4 * (W_WIDTH * w->rayc.y + x) + 1] = w->texture
-		[texture_nb].data[(4 * (TEXTURE_WIDTH * w->rayc.texture_y +
+		[nbr].data[(4 * (w->texture[nbr].width * w->rayc.texture_y +
 			w->rayc.texture_x)) + 1];
 		w->data[4 * (W_WIDTH * w->rayc.y + x) + 2] = w->texture
-		[texture_nb].data[(4 * (TEXTURE_WIDTH * w->rayc.texture_y +
+		[nbr].data[(4 * (w->texture[nbr].width * w->rayc.texture_y +
 			w->rayc.texture_x)) + 2];
 		w->rayc.y++;
 	}
@@ -60,6 +60,10 @@ void		shoot(t_env *w)
 	x = (W_WIDTH / 2) - (w->weapon.width / 2);
 	y = W_HEIGHT - w->weapon.height;
 	mlx_put_image_to_window(w->mlx, w->win, w->weapon.shots[0].ptr, x + 100, y);
+	if (w->flag.sound == 1)
+		system("afplay music/pif-paf.mp3&");
+	else
+		system("afplay music/shot.mp3&");
 }
 
 void		weapon(t_env *w)

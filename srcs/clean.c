@@ -26,8 +26,12 @@ void		delete_env(t_env **w)
 int			f_exit(t_env *w)
 {
 	if (w != NULL)
+	{
 		mlx_destroy_window(w->mlx, w->win);
+		ft_memdel((void**)w);
+	}
 	system("pkill afplay");
+	system("leaks wolf3d");
 	exit(0);
 	return (0);
 }

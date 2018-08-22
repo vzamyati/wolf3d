@@ -19,8 +19,8 @@ static void			open_file(char *av, t_env *w)
 	char		*buf;
 
 	i = 0;
-	buf = ft_strnew(1000000);
-	if ((fd = open(av, O_RDONLY)) < 0 || (read(fd, buf, 1000000)) < 1 ||
+	buf = ft_strnew(100000);
+	if ((fd = open(av, O_RDONLY)) < 0 || (read(fd, buf, 100000)) < 1 ||
 		buf[i + 1] == '\n')
 		ft_error("File is not valid. Try again\n");
 	w->map_width = ft_linelen(buf);

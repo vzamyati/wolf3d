@@ -24,8 +24,6 @@
 
 # define W_HEIGHT		900
 # define W_WIDTH 		900
-# define TEXTURE_WIDTH	64
-# define TEXTURE_HEIGHT	64
 
 # define ESC			53
 
@@ -49,6 +47,7 @@
 # define INFO 			34
 # define WEAPON 		14
 # define TEXTURE		49
+# define SOUND			18
 
 typedef struct	s_var
 {
@@ -67,6 +66,7 @@ typedef struct	s_flag
 	int			shift;
 	int			weapon;
 	int			texture;
+	int			sound;
 }				t_flag;
 
 typedef struct	s_textur

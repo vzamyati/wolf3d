@@ -20,12 +20,12 @@ void		validate_map1(char *buf, int i, t_env *w)
 	while (buf[i] && buf[i] != '\0')
 	{
 		if ((buf[i] < 48 || buf[i] > 57) && buf[i] != ' ' && buf[i] != '\n')
-			ft_error("Wrong element! Try again\n");
+			ft_error("Map is invalid! Try again\n");
 		len++;
 		if (buf[i] == '\n')
 		{
 			if (len - 1 != w->map_width)
-				ft_error("Wrong size! Try again\n");
+				ft_error("Map is invalid! Try again\n");
 			len = 0;
 		}
 		i++;
@@ -68,13 +68,13 @@ void		validate_map2(t_env *w)
 	i = -1;
 	while (++i < w->map_width)
 		if (w->map[0][i] == 0 || w->map[w->map_height - 1][i] == 0)
-			ft_error("The map is opened. Try again\n");
+			ft_error("Map is invalid! Try again\n");
 	i = -1;
 	while (++i < w->map_height)
 		if (w->map[i][0] == 0 || w->map[i][w->map_width - 1] == 0)
-			ft_error("The map is opened. Try again\n");
+			ft_error("Map is invalid! Try again\n");
 	if (!check_position(w))
-		ft_error("Couldn't place the player. Try again\n");
+		ft_error("Map is invalid! Try again\n");
 }
 
 void		check_value(t_env *w, int i, int j)

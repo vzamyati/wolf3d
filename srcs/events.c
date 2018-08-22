@@ -76,6 +76,13 @@ int		key_press(int key, t_env *w)
 		change_music(key, w);
 	if (key == RESTART)
 		place_player(w);
+	if (key == SOUND)
+	{
+		if (w->flag.sound == 0)
+			w->flag.sound = 1;
+		else
+			w->flag.sound = 0;
+	}
 	key_press2(key, w);
 	return (0);
 }
