@@ -105,7 +105,7 @@ $(NAME): $(OBJ)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(OBJ_DIR)
-	@ echo "\033[31;1mMAKELIB LINKING [$@]\033[0m"
+	@ echo "\033[33;1mMAKELIB LINKING [$@]\033[0m"
 	@$(CC) $(WWW) -I./$(HEADER) -o $@ -c $<
 
 clean:
@@ -115,7 +115,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@ echo "\033[36;1mMAKELIB:REMOVE BINARY FILES\033[0m"
+	@ echo "\033[31;mMAKELIB:REMOVE BINARY FILES\033[0m"
 
 
 re: fclean all

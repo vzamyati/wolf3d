@@ -60,7 +60,7 @@ int		key_press2(int key, t_env *w)
 
 int		key_press(int key, t_env *w)
 {
-	if (key == ESC || key == Q)
+	if (key == ESC)
 		f_exit(w);
 	if (key == W || key == ARR_UP)
 		w->player.flag.up = 1;

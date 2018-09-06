@@ -65,7 +65,7 @@ clean:
 fclean: clean
 	@make -C $(LIB_DIR) fclean --silent
 	@rm -f $(NAME)
-	@ echo "\033[36;1mREMOVE BINARY FILES\033[0m"
+	@ echo "\033[31;mREMOVE BINARY FILES\033[0m"
 
 re: fclean all
 

@@ -19,11 +19,14 @@ void		set_texture(t_env *w)
 	else
 		w->rayc.wall_x = w->rayc.pos.x + w->rayc.pwd * w->rayc.dirt.x;
 	w->rayc.wall_x -= floor((w->rayc.wall_x));
-	w->rayc.texture_x = (int)(w->rayc.wall_x * (float)TEXTURE_WIDTH);
+	w->rayc.texture_x = (int)(w->rayc.wall_x *
+		(float)w->texture[w->rayc.texture_nb].width);
 	if (w->rayc.hit_side == 0 && w->rayc.dirt.x > 0)
-		w->rayc.texture_x = TEXTURE_WIDTH - w->rayc.texture_x - 1;
+		w->rayc.texture_x = w->texture[w->rayc.texture_nb].width -
+	w->rayc.texture_x - 1;
 	if (w->rayc.hit_side == 1 && w->rayc.dirt.y < 0)
-		w->rayc.texture_x = TEXTURE_WIDTH - w->rayc.texture_x - 1;
+		w->rayc.texture_x = w->texture[w->rayc.texture_nb].width -
+	w->rayc.texture_x - 1;
 	w->player.oldtime = w->player.time;
 	w->player.time = clock();
 	w->player.frametime = (w->player.time - w->player.oldtime) / 1000.0;

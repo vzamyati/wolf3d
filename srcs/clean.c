@@ -31,7 +31,6 @@ int			f_exit(t_env *w)
 		ft_memdel((void**)w);
 	}
 	system("pkill afplay");
-	system("leaks wolf3d");
 	exit(0);
 	return (0);
 }

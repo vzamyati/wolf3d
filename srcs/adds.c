@@ -61,7 +61,7 @@ void		show_info(t_env *w)
 	mlx_string_put(w->mlx, w->win, 10, 170, 0xFFFFFF,
 		"SHOOT = LEFT MOUSE BUTTON");
 	mlx_string_put(w->mlx, w->win, 10, 190, 0xFF0000,
-		"QUIT = ESC || Q");
+		"QUIT = ESC");
 }
 
 void		change_music(int key, t_env *w)
