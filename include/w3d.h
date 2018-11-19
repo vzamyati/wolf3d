@@ -31,6 +31,8 @@
 # define S				1
 # define A				0
 # define D				2
+# define Q				12
+# define E 				14
 
 # define SHIFT1			257
 # define SHIFT2			258
@@ -44,7 +46,7 @@
 # define OFF			31
 # define RESTART		15
 # define INFO 			34
-# define WEAPON 		14
+# define WEAPON 		3
 # define TEXTURE		49
 # define SOUND			18
 
@@ -62,6 +64,8 @@ typedef struct	s_flag
 	int			down;
 	int			left;
 	int			right;
+	int 		rot_l;
+	int 		rot_r;
 	int			shift;
 	int			weapon;
 	int			texture;
@@ -203,8 +207,8 @@ void			validate_map1(char *buf, int i, t_env *w);
 /*
 ** moves.c
 */
-void			key_up(t_env *w);
-void			key_down(t_env *w);
+void			move_up(t_env *w);
+void			move_down(t_env *w);
 void			key_left(t_env *w);
 void			key_right(t_env *w);
 /*
@@ -228,4 +232,6 @@ void			get_texture(t_env *w);
 void			load_textures(t_env *w);
 void			load_textures2(t_env *w);
 
+void 		move_right(t_env *w);
+void 		move_left(t_env *w);
 #endif

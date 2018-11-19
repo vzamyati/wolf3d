@@ -12,7 +12,7 @@
 
 #include "w3d.h"
 
-void		key_up(t_env *w)
+void		move_up(t_env *w)
 {
 	if (w->player.flag.shift)
 	{
@@ -34,7 +34,7 @@ void		key_up(t_env *w)
 	}
 }
 
-void		key_down(t_env *w)
+void		move_down(t_env *w)
 {
 	if (w->map[(int)(w->player.pos.x - w->player.dirt.x *
 	w->player.s_move - 0.4 * w->player.dirt.x)][(int)w->player.pos.y] == 0)
@@ -42,6 +42,26 @@ void		key_down(t_env *w)
 	if (w->map[(int)w->player.pos.x][(int)(w->player.pos.y -
 	w->player.dirt.y * w->player.s_move - 0.4 * w->player.dirt.y)] == 0)
 		w->player.pos.y -= w->player.dirt.y * w->player.s_move;
+}
+
+void 		move_right(t_env *w)
+{
+	if (w->map[(int)(w->player.pos.x + w->player.dirt.y *
+		w->player.s_move + 0.6 * w->player.dirt.x)][(int)w->player.pos.y] == 0)
+		w->player.pos.x -= (w->player.dirt.y) * w->player.s_move;
+	if (w->map[(int)w->player.pos.x][(int)(w->player.pos.y - w->player.dirt.x *
+		w->player.s_move - 0.6 * w->player.dirt.x)] == 0)
+		w->player.pos.y += (w->player.dirt.x) * w->player.s_move;
+}
+
+void 		move_left(t_env *w)
+{
+	if (w->map[(int)(w->player.pos.x - w->player.dirt.y *
+		w->player.s_move + 0.6 * w->player.dirt.x)][(int)w->player.pos.y] == 0)
+		w->player.pos.x += (w->player.dirt.y) * w->player.s_move;
+	if (w->map[(int)w->player.pos.x][(int)(w->player.pos.y + w->player.dirt.x *
+		w->player.s_move - 0.6 * w->player.dirt.x)] == 0)
+		w->player.pos.y -= (w->player.dirt.x) * w->player.s_move;
 }
 
 void		key_left(t_env *w)

@@ -14,10 +14,12 @@
 
 int		game_loop(t_env *w)
 {
-	(w->player.flag.up) ? key_up(w) : 42;
-	(w->player.flag.down) ? key_down(w) : 42;
-	(w->player.flag.left) ? key_left(w) : 42;
-	(w->player.flag.right) ? key_right(w) : 42;
+	(w->player.flag.up) ? move_up(w) : 42;
+	(w->player.flag.down) ? move_down(w) : 42;
+	(w->player.flag.left) ? move_left(w) : 42;
+	(w->player.flag.right) ? move_right(w) : 42;
+	(w->player.flag.rot_l) ? key_left(w) : 42;
+	(w->player.flag.rot_r) ? key_right(w) : 42;
 	raycasting(w);
 	draw(w);
 	return (0);
@@ -72,6 +74,10 @@ int		key_press(int key, t_env *w)
 		w->player.flag.right = 1;
 	if (key == SHIFT1 || key == SHIFT2)
 		w->player.flag.shift = 1;
+	if (key == Q)
+		w->player.flag.rot_l = 1;
+	if (key == E)
+		w->player.flag.rot_r = 1;
 	if (key == NEXT || key == PREV || key == OFF)
 		change_music(key, w);
 	if (key == RESTART)
@@ -99,5 +105,9 @@ int		key_release(int key, t_env *w)
 		w->player.flag.right = 0;
 	if (key == SHIFT1 || key == SHIFT2)
 		w->player.flag.shift = 0;
+	if (key == Q)
+		w->player.flag.rot_l = 0;
+	if (key == E)
+		w->player.flag.rot_r = 0;
 	return (0);
 }
